@@ -52,7 +52,6 @@ orbs:
         steps:
           - install_rook_if_needed
           - run_users_script
-              name: mybuild2
               rookout_token: <<parameters.rookout_token>>
               rookout_tags: <<parameters.rookout_tags>>
               users_script: <<parameters.users_script>>
