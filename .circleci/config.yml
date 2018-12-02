@@ -47,6 +47,7 @@ orbs:
                 echo "<<parameters.rookout_token1>>"
                 echo "<<parameters.rookout_tags1>>"
                 echo "<<parameters.users_script1>>"
+                sudo npm link rookout
                 node /tmp/testRookout.js
 
 
