@@ -4,11 +4,11 @@ orbs:
     description: "A circle-ci orb that loads rookout-node to your program"
     parameters:
       rookout_token:
-		type: string
+        type: string
       rookout_tags:
-	    type: string
+        type: string
       users_script:
-		type: string
+        type: string
             
     executors:
       default:
