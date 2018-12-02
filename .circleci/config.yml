@@ -1,42 +1,61 @@
-version: 2.1
-
-description: This is an inline job
-
 orbs:
-  inline_example:
+  codecov: circleci/codecov-clojure@0.0.4
+  my-orb:
+    description: "A circle-ci orb that loads rookout-node to your program"
     jobs:
-      my_inline_job:
+      myjob:
+        executor: default
         parameters:
-          greeting_name:
-            description: # a helpful description
+          rookout_token:
             type: string
-            default: olleh
-        executor: my_inline_executor
-        steps:
-          - my_inline_command:
-              greeting_name: <<parameters.greeting_name>>
-    commands:
-      my_inline_command:
-        parameters:
-          greeting_name:
+          rookout_tags:
             type: string
-            default: olleh2
+          users_script:
+            type: string
         steps:
-          - run: echo "hello << parameters.greeting_name >>, from the inline command"
+          - install_rook_if_needed
+          - run_users_script:
+              rookout_token1: <<parameters.rookout_token>>
+              rookout_tags1: <<parameters.rookout_tags>>
+              users_script1: <<parameters.users_script>>
+            
     executors:
-      my_inline_executor:
-        parameters:
-          version:
-            type: string
-            default: "2.4"
+      default:
         docker:
-          - image: circleci/ruby:<<parameters.version>>
+          - image: circleci/node:10
+          
+    commands:
+      install_rook_if_needed:
+        steps:
+          - run: 
+              command: | 
+                echo "try {const rook = require('rookout');} catch (e) { process.exit(1); } process.exit(0);" > /tmp/testRookout.js
+                if ! node /tmp/testRookout.js; then
+                    sudo npm install --unsafe-perm -g rookout 
+                fi
+      run_users_script:
+        parameters:
+          rookout_token1:
+            type: string
+          rookout_tags1:
+            type: string
+          users_script1:
+            type: string
+        steps:
+          - run:
+              command: | 
+                echo "<<parameters.rookout_token1>>"
+                echo "<<parameters.rookout_tags1>>"
+                echo "<<parameters.users_script1>>"
+                node /tmp/testRookout.js
 
+
+version: 2.1
 workflows:
-  build-test-deploy:
+  main:
     jobs:
-      - inline_example/my_inline_job:
-          name: mybuild # best practice is to name each orb job
-      - inline_example/my_inline_job:
+      - my-orb/myjob:
           name: mybuild2
-          greeting_name: world
+          rookout_token: "1234"
+          rookout_tags: "orb;benk"
+          users_script: "node /tmp/testRookout.js"
