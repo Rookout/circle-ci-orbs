@@ -25,6 +25,13 @@ orbs:
                     sudo npm install --unsafe-perm -g rookout 
                 fi
       run_users_script:
+        parameters:
+          rookout_token:
+            type: string
+          rookout_tags:
+            type: string
+          users_script:
+            type: string
         steps:
           - run:
               command: | 
