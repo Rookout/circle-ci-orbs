@@ -2,13 +2,22 @@ orbs:
   codecov: circleci/codecov-clojure@0.0.4
   my-orb:
     description: "A circle-ci orb that loads rookout-node to your program"
-    parameters:
-      rookout_token:
-        type: string
-      rookout_tags:
-        type: string
-      users_script:
-        type: string
+    jobs:
+      myjob:
+        executor: default
+        parameters:
+          rookout_token:
+            type: string
+          rookout_tags:
+            type: string
+          users_script:
+            type: string
+        steps:
+          - install_rook_if_needed
+          - run_users_script
+              rookout_token1: <<parameters.rookout_token>>
+              rookout_tags1: <<parameters.rookout_tags>>
+              users_script1: <<parameters.users_script>>
             
     executors:
       default:
@@ -39,22 +48,7 @@ orbs:
                 echo "<<parameters.rookout_tags1>>"
                 echo "<<parameters.users_script1>>"
                 node /tmp/testRookout.js
-    jobs:
-      myjob:
-        executor: default
-        parameters:
-          rookout_token:
-            type: string
-          rookout_tags:
-            type: string
-          users_script:
-            type: string
-        steps:
-          - install_rook_if_needed
-          - run_users_script
-              rookout_token1: <<parameters.rookout_token>>
-              rookout_tags1: <<parameters.rookout_tags>>
-              users_script1: <<parameters.users_script>>
+
 
 version: 2.1
 workflows:
