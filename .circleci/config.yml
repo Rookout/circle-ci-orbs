@@ -35,9 +35,9 @@ orbs:
         steps:
           - run:
               command: | 
-                echo <<parameters.rookout_token>>
-                echo <<parameters.rookout_tags>>
-                echo <<parameters.users_script>>
+                echo "<<parameters.rookout_token>>"
+                echo "<<parameters.rookout_tags>>"
+                echo "<<parameters.users_script>>"
                 node /tmp/testRookout.js
     jobs:
       myjob:
