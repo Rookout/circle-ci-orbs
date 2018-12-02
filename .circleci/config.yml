@@ -1,5 +1,3 @@
-version: 3
-
 orbs:
   codecov: circleci/codecov-clojure@0.0.4
   my-orb:
