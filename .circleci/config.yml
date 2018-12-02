@@ -1,61 +1,41 @@
-orbs:
-  codecov: circleci/codecov-clojure@0.0.4
-  my-orb:
-    description: "A circle-ci orb that loads rookout-node to your program"
-    jobs:
-      myjob:
-        executor: default
-        parameters:
-          rookout_token:
-            type: string
-          rookout_tags:
-            type: string
-          users_script:
-            type: string
-        steps:
-          - install_rook_if_needed
-          - run_users_script
-              rookout_token1: <<parameters.rookout_token>>
-              rookout_tags1: <<parameters.rookout_tags>>
-              users_script1: <<parameters.users_script>>
-            
-    executors:
-      default:
-        docker:
-          - image: circleci/node:10
-          
-    commands:
-      install_rook_if_needed:
-        steps:
-          - run: 
-              command: | 
-                echo "try {const rook = require('rookout');} catch (e) { process.exit(1); } process.exit(0);" > /tmp/testRookout.js
-                if ! node /tmp/testRookout.js; then
-                    sudo npm install --unsafe-perm -g rookout 
-                fi
-      run_users_script:
-        parameters:
-          rookout_token1:
-            type: string
-          rookout_tags1:
-            type: string
-          users_script1:
-            type: string
-        steps:
-          - run:
-              command: | 
-                echo "<<parameters.rookout_token1>>"
-                echo "<<parameters.rookout_tags1>>"
-                echo "<<parameters.users_script1>>"
-                node /tmp/testRookout.js
-
-
 version: 2.1
-workflows:
-  main:
+
+description: This is an inline job
+
+orbs:
+  inline_example:
     jobs:
-      - my-orb/myjob:
+      my_inline_job:
+        parameters:
+          greeting_name:
+            description: # a helpful description
+            type: string
+            default: olleh
+        executor: my_inline_executor
+        steps:
+          - my_inline_command:
+              name: <<parameters.greeting_name>>
+    commands:
+      my_inline_command:
+        parameters:
+          greeting_name:
+            type: string
+        steps:
+          - run: echo "hello <<parameters.greeting_name>>, from the inline command"
+    executors:
+      my_inline_executor:
+        parameters:
+          version:
+            type: string
+            default: "2.4"
+        docker:
+          - image: circleci/ruby:<<parameters.version>>
+
+workflows:
+  build-test-deploy:
+    jobs:
+      - inline_example/my_inline_job:
+          name: mybuild # best practice is to name each orb job
+      - inline_example/my_inline_job:
           name: mybuild2
-          rookout_token: "1234"
-          rookout_tags: "orb;benk"
-          users_script: "node /tmp/testRookout.js"
+          greeting_name: world
