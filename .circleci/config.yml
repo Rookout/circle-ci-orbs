@@ -1,19 +1,34 @@
 orbs:
   codecov: circleci/codecov-clojure@0.0.4
   my-orb:
+    description: "A circle-ci orb that loads rookout-node to your program"
+    parameters:
+      rookout_token:
+		type: string
+      rookout_tags:
+	    type: string
+      users_script:
+		type: string
+            
     executors:
       default:
         docker:
           - image: circleci/node:10
+          
     commands:
       dospecialthings:
         steps:
           - run: echo "We will now do special things"
+      install_rook:
+        steps:
+          - run: npm install -g rookout
+          
     jobs:
       myjob:
         executor: default
         steps:
           - dospecialthings
+          - install_rook
           
 
 version: 2.1
