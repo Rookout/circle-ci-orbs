@@ -26,18 +26,18 @@ orbs:
                 fi
       run_users_script:
         parameters:
-          rookout_token:
+          rookout_token1:
             type: string
-          rookout_tags:
+          rookout_tags1:
             type: string
-          users_script:
+          users_script1:
             type: string
         steps:
           - run:
               command: | 
-                echo "<<parameters.rookout_token>>"
-                echo "<<parameters.rookout_tags>>"
-                echo "<<parameters.users_script>>"
+                echo "<<parameters.rookout_token1>>"
+                echo "<<parameters.rookout_tags1>>"
+                echo "<<parameters.users_script1>>"
                 node /tmp/testRookout.js
     jobs:
       myjob:
@@ -52,9 +52,9 @@ orbs:
         steps:
           - install_rook_if_needed
           - run_users_script
-              rookout_token: <<parameters.rookout_token>>
-              rookout_tags: <<parameters.rookout_tags>>
-              users_script: <<parameters.users_script>>
+              rookout_token1: <<parameters.rookout_token>>
+              rookout_tags1: <<parameters.rookout_tags>>
+              users_script1: <<parameters.users_script>>
 
 version: 2.1
 workflows:
