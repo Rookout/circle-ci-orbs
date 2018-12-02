@@ -16,10 +16,7 @@ orbs:
           - image: circleci/node:10
           
     commands:
-      dospecialthings:
-        steps:
-          - run: echo "We will now do special things"
-      install_rook:
+      install_rook_if_needed:
         steps:
           - run: 
               command: | 
@@ -27,17 +24,26 @@ orbs:
                 if ! node /tmp/testRookout.js; then
                     sudo npm install --unsafe-perm -g rookout 
                 fi
-          
+      run_users_script:
+        steps:
+          - run:
+              command: | 
+                echo <<rookout_token>>
+                echo <<rookout_tags>>
+                echo <<users_script>>
+                node /tmp/testRookout.js
     jobs:
       myjob:
         executor: default
         steps:
-          - dospecialthings
-          - install_rook
-          
+          - install_rook_if_needed
+          - run_users_script
 
 version: 2.1
 workflows:
   main:
     jobs:
-      - my-orb/myjob
+      - my-orb/myjob:
+          rookout_token: 1234
+          rookout_tags: orb;benk
+          users_script: node /tmp/testRookout.js
