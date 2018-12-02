@@ -20,8 +20,9 @@ orbs:
         parameters:
           greeting_name:
             type: string
+            default: olleh2
         steps:
-          - run: echo "hello <<parameters.greeting_name>>, from the inline command"
+          - run: echo "hello << parameters.greeting_name >>, from the inline command"
     executors:
       my_inline_executor:
         parameters:
