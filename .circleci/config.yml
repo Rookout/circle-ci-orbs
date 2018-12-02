@@ -21,6 +21,6 @@ orbs:
   
 workflows:
   version: 2
-  run-pipeline:
+  main:
     jobs:
       - my-orb/myjob
