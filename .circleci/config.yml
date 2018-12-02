@@ -35,9 +35,9 @@ orbs:
         steps:
           - run:
               command: | 
-                echo <<rookout_token>>
-                echo <<rookout_tags>>
-                echo <<users_script>>
+                echo <<parameters.rookout_token>>
+                echo <<parameters.rookout_tags>>
+                echo <<parameters.users_script>>
                 node /tmp/testRookout.js
     jobs:
       myjob:
@@ -52,6 +52,10 @@ orbs:
         steps:
           - install_rook_if_needed
           - run_users_script
+              name: mybuild2
+              rookout_token: <<parameters.rookout_token>>
+              rookout_tags: <<parameters.rookout_tags>>
+              users_script: <<parameters.users_script>>
 
 version: 2.1
 workflows:
