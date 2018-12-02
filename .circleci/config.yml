@@ -22,10 +22,10 @@ orbs:
       install_rook:
         steps:
           - run: 
-            command: | 
-              echo "try {const rook = require('rookout');} catch (e) { process.exit(1); } process.exit(0);" > /tmp/testRookout.js
-              node /tmp/testRookout.js
-              sudo npm install --unsafe-perm -g rookout 
+              command: | 
+                echo "try {const rook = require('rookout');} catch (e) { process.exit(1); } process.exit(0);" > /tmp/testRookout.js
+                node /tmp/testRookout.js
+                sudo npm install --unsafe-perm -g rookout 
           
     jobs:
       myjob:
