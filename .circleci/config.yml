@@ -14,11 +14,10 @@ orbs:
         executor: default
         steps:
           - dospecialthings
-          - codecov/upload:
-              path: ~/tmp/results.xml
-  
+          
+
+version: 2.1
 workflows:
-  version: 2
   main:
     jobs:
       - my-orb/myjob
