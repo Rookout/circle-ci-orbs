@@ -44,5 +44,4 @@ version: 2.1
 workflows:
   main:
     jobs:
-      - checkout_code
       - my-orb/myjob
