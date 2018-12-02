@@ -23,12 +23,7 @@ orbs:
         steps:
           - run: 
             command: | 
-              echo "try {
-                        const rook = require('rookout');
-                    } catch (e) {
-                        process.exit(1);
-                    }
-                    process.exit(0);" > /tmp/testRookout.js
+              echo "try {const rook = require('rookout');} catch (e) { process.exit(1); } process.exit(0);" > /tmp/testRookout.js
               node /tmp/testRookout.js
               sudo npm install --unsafe-perm -g rookout 
           
