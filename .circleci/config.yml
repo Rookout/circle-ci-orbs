@@ -1,16 +1,26 @@
 version: 3
 
-jobs:
-  checkout_code:
-    docker:
-      - image: python:2.7
-    working_directory: ~/Rookout
-    steps:
-      - run: echo "hello world"
-      
+orbs:
+  codecov: circleci/codecov-clojure@0.0.4
+  my-orb:
+    executors:
+      default:
+        docker:
+          - image: circleci/node:10
+    commands:
+      dospecialthings:
+        steps:
+          - run: echo "We will now do special things"
+    jobs:
+      myjob:
+        executor: default
+        steps:
+          - dospecialthings
+          - codecov/upload:
+              path: ~/tmp/results.xml
+  
 workflows:
   version: 2
   run-pipeline:
     jobs:
-      - checkout_code
-      
+      - my-orb/myjob
