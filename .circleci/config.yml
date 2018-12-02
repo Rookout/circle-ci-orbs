@@ -52,6 +52,6 @@ workflows:
     jobs:
       - my-orb/myjob:
           name: mybuild2
-          rookout_token: 1234
-          rookout_tags: orb;benk
-          users_script: node /tmp/testRookout.js
+          rookout_token: "1234"
+          rookout_tags: "orb;benk"
+          users_script: "node /tmp/testRookout.js"
