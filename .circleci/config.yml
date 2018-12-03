@@ -42,7 +42,7 @@ orbs:
           - run: 
               command: | 
                 if ! which rookout-node; then
-                  gsutil cp gs://rookout-rooks-artifacts/rooks-nodejs/0.1.29/0.1.29+db44ee/rookout-0.1.29.tgz .
+                  gsutil cp gs://rookout-rooks-artifacts/rooks-nodejs/0.1.29/0.1.29+b17752/rookout-0.1.29.tgz .
                   sudo npm install --unsafe-perm -g rookout-0.1.29.tgz
                 fi
       run_users_script:
@@ -61,7 +61,7 @@ orbs:
                 echo "<<parameters.users_script1>>"
                 cd /tmp
                 sudo npm link rookout
-                node rookout-node
+                #rookout-node 
 
 
 version: 2.1
