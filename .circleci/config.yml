@@ -27,9 +27,9 @@ orbs:
           - *auth_google
           - install_rook_if_needed
           - run_users_script:
-              rookout_token1: <<parameters.rookout_token>>
-              rookout_tags1: <<parameters.rookout_tags>>
-              users_script1: <<parameters.users_script>>
+              rookout_token: <<parameters.rookout_token>>
+              rookout_tags: <<parameters.rookout_tags>>
+              users_script: <<parameters.users_script>>
             
     executors:
       default:
@@ -42,23 +42,23 @@ orbs:
           - run: 
               command: | 
                 if ! which rookout-node; then
-                  gsutil cp gs://rookout-rooks-artifacts/rooks-nodejs/0.1.29/0.1.29+b17752/rookout-0.1.29.tgz .
+                  gsutil cp gs://rookout-rooks-artifacts/rooks-nodejs/0.1.29/0.1.29+3b2577b/rookout-0.1.29.tgz .
                   sudo npm install --unsafe-perm -g rookout-0.1.29.tgz
                 fi
       run_users_script:
         parameters:
-          rookout_token1:
+          rookout_token:
             type: string
-          rookout_tags1:
+          rookout_tags:
             type: string
-          users_script1:
+          users_script:
             type: string
         steps:
           - run:
               command: | 
-                echo "<<parameters.rookout_token1>>"
-                echo "<<parameters.rookout_tags1>>"
-                echo "<<parameters.users_script1>>"
+                export ROOKOUT_TOKEN="<<parameters.rookout_token>>"
+                export ROOKOUT_ROOK_TAGS=echo "<<parameters.rookout_tags>>"
+                echo "<<parameters.users_script>>"
                 cd /tmp
                 sudo npm link rookout
                 #rookout-node 
