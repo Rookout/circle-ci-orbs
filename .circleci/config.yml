@@ -57,11 +57,11 @@ orbs:
           - run:
               command: | 
                 export ROOKOUT_TOKEN="<<parameters.rookout_token>>"
-                export ROOKOUT_ROOK_TAGS=echo "<<parameters.rookout_tags>>"
-                echo "<<parameters.users_script>>"
+                export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"
+                
                 cd /tmp
                 sudo npm link rookout
-                #rookout-node 
+                rookout-node <<parameters.users_script>>
 
 
 version: 2.1
