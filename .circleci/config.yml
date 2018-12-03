@@ -30,7 +30,7 @@ orbs:
     executors:
       default:
         docker:
-          - image: circleci/node:10
+          - image: us.gcr.io/rookout/rooks_core_node:latest
           
     commands:
       install_rook_if_needed:
