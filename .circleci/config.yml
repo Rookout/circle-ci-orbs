@@ -66,6 +66,8 @@ orbs:
                     echo "x22222222"
                 fi
                 
+                env
+                
                 cd /tmp
                 sudo npm link rookout
                 rookout-node <<parameters.users_script>>
