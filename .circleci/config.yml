@@ -40,7 +40,7 @@ orbs:
           - run: 
               command: | 
                 if ! which rookout-node; then
-                  gsutil cp gs://rookout-rooks-artifacts/rooks-nodejs/0.1.29/0.1.29+acf7f5/rookout-0.1.29.tgz .
+                  gsutil cp gs://rookout-rooks-artifacts/rooks-nodejs/0.1.29/0.1.29+8335d4/rookout-0.1.29.tgz .
                   sudo npm install --unsafe-perm -g rookout-0.1.29.tgz
                 fi
       run_users_script:
@@ -53,9 +53,17 @@ orbs:
           - run:
               command: | 
                 if [ "<<parameters.rookout_tags>>" = "" ]; then   
+                    echo "1111111111111"
                   export ROOKOUT_ROOK_TAGS="$REPONAME;$CIRCLE_JOB;circle-ci"; 
                 else
+                    echo "22222222"
                   export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>" 
+                fi
+                
+                 if [ <<parameters.rookout_tags>> = "" ]; then   
+                    echo "x1111111111111"
+                else
+                    echo "x22222222"
                 fi
                 
                 cd /tmp
