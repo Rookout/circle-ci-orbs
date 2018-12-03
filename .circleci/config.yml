@@ -17,8 +17,6 @@ orbs:
       myjob:
         executor: default
         parameters:
-          rookout_token:
-            type: string
           rookout_tags:
             type: string
           users_script:
@@ -27,7 +25,6 @@ orbs:
           - *auth_google
           - install_rook_if_needed
           - run_users_script:
-              rookout_token: <<parameters.rookout_token>>
               rookout_tags: <<parameters.rookout_tags>>
               users_script: <<parameters.users_script>>
             
@@ -42,22 +39,24 @@ orbs:
           - run: 
               command: | 
                 if ! which rookout-node; then
-                  gsutil cp gs://rookout-rooks-artifacts/rooks-nodejs/0.1.29/0.1.29+3b2577/rookout-0.1.29.tgz .
+                  gsutil cp gs://rookout-rooks-artifacts/rooks-nodejs/0.1.29/0.1.29+a6cddf/rookout-0.1.29.tgz .
                   sudo npm install --unsafe-perm -g rookout-0.1.29.tgz
                 fi
       run_users_script:
         parameters:
-          rookout_token:
-            type: string
           rookout_tags:
             type: string
+            default: ""
           users_script:
             type: string
         steps:
           - run:
               command: | 
-                export ROOKOUT_TOKEN="<<parameters.rookout_token>>"
-                export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"
+                if [ "<<parameters.rookout_tags>>" = "" ]; then   
+                  export ROOKOUT_ROOK_TAGS="$REPONAME;$CIRCLE_JOB;circle-ci"; 
+                else
+                  export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>" 
+                fi
                 
                 cd /tmp
                 sudo npm link rookout
@@ -69,8 +68,4 @@ workflows:
   main:
     jobs:
       - my-orb/myjob:
-          name: mybuild2
-          rookout_token: "1234"
-          rookout_tags: "orb;benk"
-          # TODO:: if script starts with node - strip it
           users_script: "node /tmp/testRookout.js"
