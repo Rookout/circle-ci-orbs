@@ -1,3 +1,10 @@
+references:
+  auth_google: &auth_google
+    run:
+      command: |
+        sudo apt-get update && sudo apt-get install google-cloud-sdk
+        echo ${GOOGLE_AUTH} > gcp-key.json && gcloud auth activate-service-account --key-file gcp-key.json
+
 orbs:
   codecov: circleci/codecov-clojure@0.0.4
   my-orb:
@@ -13,6 +20,7 @@ orbs:
           users_script:
             type: string
         steps:
+          - *auth_google
           - install_rook_if_needed
           - run_users_script:
               rookout_token1: <<parameters.rookout_token>>
@@ -29,9 +37,9 @@ orbs:
         steps:
           - run: 
               command: | 
-                echo "try {const rook = require('rookout');} catch (e) { process.exit(1); } process.exit(0);" > /tmp/testRookout.js
-                if ! node /tmp/testRookout.js; then
-                    sudo npm install --unsafe-perm -g rookout 
+                if ! which rookout-node; then
+                  gsutil cp gs://rookout-rooks-artifacts/rooks-nodejs/0.1.29/0.1.29+db44ee/rookout-0.1.29.tgz .
+                  sudo npm install --unsafe-perm -g rookout-0.1.29.tgz
                 fi
       run_users_script:
         parameters:
@@ -49,7 +57,7 @@ orbs:
                 echo "<<parameters.users_script1>>"
                 cd /tmp
                 sudo npm link rookout
-                node /tmp/testRookout.js
+                node rookout-node
 
 
 version: 2.1
@@ -60,4 +68,5 @@ workflows:
           name: mybuild2
           rookout_token: "1234"
           rookout_tags: "orb;benk"
+          # TODO:: if script starts with node - strip it
           users_script: "node /tmp/testRookout.js"
