@@ -70,8 +70,7 @@ jobs:
     working_directory: ~/Temp
     steps:
       - run: mkdir -p  /root/Rookout/workspace
-      - run: 
-          command: rookout-node-orb/install_rook_if_needed
+      - rookout-node-orb/install_rook_if_needed
              
       
 version: 2.1
