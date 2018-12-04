@@ -8,9 +8,8 @@ references:
         curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
         sudo apt-get update && sudo apt-get install google-cloud-sdk
         echo ${GOOGLE_AUTH} > gcp-key.json && gcloud auth activate-service-account --key-file gcp-key.json
-
 orbs:
-  rookout-node-orb:
+  rookout-node:
     description: "A circle-ci orb that installs rookout-node to your job"
     jobs:
       execute:
@@ -24,7 +23,7 @@ orbs:
             default: ""
         steps:
           - *auth_google
-          - run:
+          - run_script:
               rookout_tags: <<parameters.rookout_tags>>
               users_script: <<parameters.users_script>>
             
@@ -34,7 +33,7 @@ orbs:
           - image: circleci/node:10
 # TODO:: silent all bash output          
     commands:
-      execute:
+      run_script:
         parameters:
           rookout_tags:
             type: string
@@ -58,8 +57,6 @@ orbs:
                 if [ "<<parameters.users_script>>" != "" ]; then
                     rookout-node <<parameters.users_script>>
                 fi
-
-
 jobs:
   my_secret_job:
     docker:
@@ -70,7 +67,7 @@ jobs:
           path: ~/Rookout
       - run: sudo mkdir -p /root/Rookout/workspace
       - *auth_google
-      - rookout-node-orb/execute:
+      - rookout-node/run_script:
           users_script: node ~/Rookout/test1.js
              
       
