@@ -51,6 +51,7 @@ orbs:
           users_script:
             type: string
         steps:
+          - checkout
           - run:
               command: | 
                 echo 'export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"' >> $BASH_ENV
