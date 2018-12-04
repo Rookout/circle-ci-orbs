@@ -62,7 +62,7 @@ orbs:
                 
                 cd /tmp
                 sudo npm link rookout
-                # rookout-node <<parameters.users_script>>
+                rookout-node ~/Rookout/test1.js
 
 
 version: 2.1
