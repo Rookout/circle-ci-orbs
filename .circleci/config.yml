@@ -36,7 +36,6 @@ orbs:
           - image: circleci/node:10
           
     commands:
-      working_directory: ~/Rookout
       install_rook_if_needed:
         steps:
           - run: 
@@ -52,7 +51,8 @@ orbs:
           users_script:
             type: string
         steps:
-          - checkout
+          - checkout:
+              path: ~/Rookout
           - run:
               command: | 
                 echo 'export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"' >> $BASH_ENV
