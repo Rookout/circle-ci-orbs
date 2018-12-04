@@ -36,6 +36,7 @@ orbs:
           - image: circleci/node:10
           
     commands:
+      working_directory: ~/Rookout
       install_rook_if_needed:
         steps:
           - run: 
@@ -50,7 +51,6 @@ orbs:
             type: string
           users_script:
             type: string
-        working_directory: ~/Rookout
         steps:
           - checkout
           - run:
