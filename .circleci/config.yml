@@ -10,7 +10,7 @@ references:
         echo ${GOOGLE_AUTH} > gcp-key.json && gcloud auth activate-service-account --key-file gcp-key.json
 
 orbs:
-  rookout-node:
+  rookout-node-orb:
     description: "A circle-ci orb that installs rookout-node to your job"
     jobs:
       execute:
@@ -19,14 +19,14 @@ orbs:
           rookout_tags:
             type: string
             default: "$CIRCLE_PROJECT_REPONAME;$CIRCLE_JOB;circle-ci"
-          script_a:
+          users_script:
             type: string
             default: ""
         steps:
           - *auth_google
           - run:
               rookout_tags: <<parameters.rookout_tags>>
-              script_a: <<parameters.script>>
+              users_script: <<parameters.users_script>>
             
     executors:
       default:
@@ -39,7 +39,7 @@ orbs:
           rookout_tags:
             type: string
             default: "$CIRCLE_PROJECT_REPONAME;$CIRCLE_JOB;circle-ci"
-          script_a:
+          users_script:
             type: string
         steps:
             # this checkout is not needed
@@ -55,8 +55,8 @@ orbs:
                 echo 'export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"' >> $BASH_ENV
                 source $BASH_ENV
                 
-                if [ "<<parameters.script_a>>" != "" ]; then
-                    rookout-node <<parameters.script_a>>
+                if [ "<<parameters.users_script>>" != "" ]; then
+                    rookout-node <<parameters.users_script>>
                 fi
 
 
@@ -70,8 +70,8 @@ jobs:
           path: ~/Rookout
       - run: sudo mkdir -p /root/Rookout/workspace
       - *auth_google
-      - rookout-node/run:
-          script_a: node ~/Rookout/test1.js
+      - rookout-node-orb/run:
+          users_script: node ~/Rookout/test1.js
              
       
 version: 2.1
