@@ -63,10 +63,19 @@ orbs:
                 fi
 
 
+jobs:
+  my_secret_job:
+    docker:
+      - image: node:10
+    working_directory: ~/Temp
+    steps:
+      - run: mkdir -p  /root/Rookout/workspace
+                
 version: 2.1
 workflows:
   main:
     jobs:
+      - my_secret_job
       - rookout-node-orb/execute:
           name: a1
           users_script: "node ~/Rookout/test1.js"
