@@ -81,5 +81,5 @@ workflows:
       - rookout-node-orb/execute:
           name: a1
           users_script: "node ~/Rookout/test1.js"
-      - rookout-node-orb/install_rook_if_needed:
-          name: a2
+      #- rookout-node-orb/install_rook_if_needed:
+       #   name: a2
