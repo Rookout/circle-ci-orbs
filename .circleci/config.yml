@@ -51,9 +51,9 @@ orbs:
             type: string
         steps:
           - run:
-              environment:
-                ROOKOUT_ROOK_TAGS: <<parameters.rookout_tags>>
               command: | 
+                echo 'export ROOKOUT_ROOK_TAGS=<<parameters.rookout_tags>>' >> $BASH_ENV
+
                 env
                 
                 cd /tmp
