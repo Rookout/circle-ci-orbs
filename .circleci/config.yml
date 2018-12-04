@@ -24,7 +24,6 @@ orbs:
             default: ""
         steps:
           - *auth_google
-          - install_rook_if_needed
           - run_users_script:
               rookout_tags: <<parameters.rookout_tags>>
               users_script: <<parameters.users_script>>
@@ -33,16 +32,8 @@ orbs:
       default:
         docker:
           - image: circleci/node:10
-          
+# TODO:: silent all bash output          
     commands:
-      install_rook_if_needed:
-        steps:
-          - run: 
-              command: | 
-                if ! which rookout-node; then
-                  gsutil cp gs://rookout-rooks-artifacts/rooks-nodejs/0.1.29/0.1.29+8335d4/rookout-0.1.29.tgz .
-                  sudo npm install --unsafe-perm -g rookout-0.1.29.tgz
-                fi
       run_users_script:
         parameters:
           rookout_tags:
@@ -52,8 +43,13 @@ orbs:
             type: string
         steps:
             # this checkout is not needed
-          - checkout:
-              path: ~/Rookout
+          - run: 
+              # Install rook if needed
+              command: | 
+                if ! which rookout-node; then
+                  gsutil cp gs://rookout-rooks-artifacts/rooks-nodejs/0.1.29/0.1.29+8335d4/rookout-0.1.29.tgz .
+                  sudo npm install --unsafe-perm -g rookout-0.1.29.tgz
+                fi
           - run:
               command: | 
                 echo 'export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"' >> $BASH_ENV
@@ -74,7 +70,6 @@ jobs:
           path: ~/Rookout
       - run: sudo mkdir -p /root/Rookout/workspace
       - *auth_google
-      - rookout-node-orb/install_rook_if_needed
       - rookout-node-orb/run_users_script:
           users_script: node ~/Rookout/test1.js
              
