@@ -58,6 +58,7 @@ orbs:
                 echo 'export ROOKOUT_ROOK_TAGS=<<parameters.rookout_tags>>' >> $BASH_ENV
 
                 echo 1
+                echo $BASH_ENV
                 source $BASH_ENV
                 echo 2
                 
