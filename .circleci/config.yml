@@ -34,7 +34,7 @@ orbs:
           - image: circleci/node:10
 # TODO:: silent all bash output          
     commands:
-      run:
+      execute:
         parameters:
           rookout_tags:
             type: string
@@ -70,7 +70,7 @@ jobs:
           path: ~/Rookout
       - run: sudo mkdir -p /root/Rookout/workspace
       - *auth_google
-      - rookout-node-orb/run:
+      - rookout-node-orb/execute:
           users_script: node ~/Rookout/test1.js
              
       
