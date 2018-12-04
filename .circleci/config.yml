@@ -10,7 +10,7 @@ references:
         echo ${GOOGLE_AUTH} > gcp-key.json && gcloud auth activate-service-account --key-file gcp-key.json
 
 orbs:
-  codecov: rookout/rookout-node@0.0.1
+  codecov: circleci/codecov-clojure@0.0.4
   my-orb:
     description: "A circle-ci orb that loads rookout-node to your program"
     jobs:
