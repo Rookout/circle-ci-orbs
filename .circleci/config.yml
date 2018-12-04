@@ -69,7 +69,7 @@ jobs:
       - image: circleci/node:10
     working_directory: ~/Temp
     steps:
-      - run: mkdir -p  /root/Rookout/workspace
+      - run: sudo mkdir -p /root/Rookout/workspace
       - *auth_google
       - rookout-node-orb/install_rook_if_needed
              
