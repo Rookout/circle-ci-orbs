@@ -38,7 +38,7 @@ orbs:
         parameters:
           rookout_tags:
             type: string
-            default: ""
+            default: "$CIRCLE_PROJECT_REPONAME;$CIRCLE_JOB;circle-ci"
           users_script:
             type: string
         steps:
