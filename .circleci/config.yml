@@ -70,23 +70,12 @@ jobs:
     working_directory: ~/Temp
     steps:
       - run: mkdir -p  /root/Rookout/workspace
-      - rookout-node-orb/execute:
+      - rookout-node-orb/install_rook_if_needed:
           name: a2
        
-
-executors:
-  my-executor: rookout-node-orb/default
-commands:
-  my-command: rookout-node-orb/install_rook_if_needed
       
 version: 2.1
 workflows:
   main:
     jobs:
-      #- my_secret_job
-      - my-command
-      - rookout-node-orb/execute:
-          name: a1
-          users_script: "node ~/Rookout/test1.js"
-      #- rookout-node-orb/install_rook_if_needed:
-       #   name: a2
+      - my_secret_job
