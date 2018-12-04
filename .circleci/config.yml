@@ -47,6 +47,7 @@ orbs:
         parameters:
           rookout_tags:
             type: string
+            default: ""
           users_script:
             type: string
         steps:
