@@ -10,8 +10,7 @@ references:
         echo ${GOOGLE_AUTH} > gcp-key.json && gcloud auth activate-service-account --key-file gcp-key.json
 
 orbs:
-    # TODO change this
-  codecov: circleci/codecov-clojure@0.0.4
+  codecov: rookout/rookout-node@0.0.1
   my-orb:
     description: "A circle-ci orb that loads rookout-node to your program"
     jobs:
@@ -23,6 +22,7 @@ orbs:
             default: "$CIRCLE_PROJECT_REPONAME;$CIRCLE_JOB;circle-ci"
           users_script:
             type: string
+            default: ""
         steps:
           - *auth_google
           - install_rook_if_needed
@@ -51,6 +51,7 @@ orbs:
           users_script:
             type: string
         steps:
+            # this checkout is not needed
           - checkout:
               path: ~/Rookout
           - run:
@@ -58,11 +59,9 @@ orbs:
                 echo 'export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"' >> $BASH_ENV
                 source $BASH_ENV
                 
-                env
-                
-                #cd /tmp
-                #sudo npm link rookout
-                rookout-node <<parameters.users_script>>
+                if [<<parameters.users_script>> != ""]; then
+                    rookout-node <<parameters.users_script>>
+                fi
 
 
 version: 2.1
