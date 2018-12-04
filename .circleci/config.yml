@@ -19,7 +19,6 @@ orbs:
         parameters:
           rookout_tags:
             type: string
-            default: ""
           users_script:
             type: string
         steps:
@@ -47,25 +46,14 @@ orbs:
         parameters:
           rookout_tags:
             type: string
+            default: "$REPONAME;$CIRCLE_JOB;circle-ci"; 
           users_script:
             type: string
         steps:
           - run:
+              environment:
+                ROOKOUT_ROOK_TAGS=<<parameters.rookout_tags>>
               command: | 
-                if [ "<<parameters.rookout_tags>>" = "" ]; then   
-                    echo "1111111111111"
-                  export ROOKOUT_ROOK_TAGS="$REPONAME;$CIRCLE_JOB;circle-ci"; 
-                else
-                    echo "22222222"
-                  export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>" 
-                fi
-                
-                 if [ <<parameters.rookout_tags>> = "" ]; then   
-                    echo "x1111111111111"
-                else
-                    echo "x22222222"
-                fi
-                
                 env
                 
                 cd /tmp
