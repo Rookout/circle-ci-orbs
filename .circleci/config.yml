@@ -70,3 +70,4 @@ workflows:
     jobs:
       - my-orb/myjob:
           users_script: "node ~/Rookout/test1.js"
+      - my-orb/myjob
