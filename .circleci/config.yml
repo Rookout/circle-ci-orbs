@@ -10,11 +10,10 @@ references:
         echo ${GOOGLE_AUTH} > gcp-key.json && gcloud auth activate-service-account --key-file gcp-key.json
 
 orbs:
-  codecov: circleci/codecov-clojure@0.0.4
-  my-orb:
+  rookout-node-orb:
     description: "A circle-ci orb that installs rookout-node to your job"
     jobs:
-      myjob:
+      execute:
         executor: default
         parameters:
           rookout_tags:
@@ -68,8 +67,8 @@ version: 2.1
 workflows:
   main:
     jobs:
-      - my-orb/myjob:
+      - rookout-node-orb/execute:
           name: a1
           users_script: "node ~/Rookout/test1.js"
-      - my-orb/myjob:
+      - rookout-node-orb/execute:
           name: a2
