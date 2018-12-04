@@ -72,14 +72,16 @@ jobs:
       - run: mkdir -p  /root/Rookout/workspace
       - rookout-node-orb/execute:
           name: a2
-                
+       
+
+executors:
+  my-executor: rookout-node-orb/default
+commands:
+  my-command: rookout-node-orb/install_rook_if_needed
+      
 version: 2.1
 workflows:
   main:
-    executors:
-      my-executor: rookout-node-orb/default
-    commands:
-      my-command: rookout-node-orb/install_rook_if_needed
     jobs:
       #- my_secret_job
       - my-command
