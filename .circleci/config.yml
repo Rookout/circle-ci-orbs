@@ -19,14 +19,14 @@ orbs:
           rookout_tags:
             type: string
             default: "$CIRCLE_PROJECT_REPONAME;$CIRCLE_JOB;circle-ci"
-          script:
+          script_a:
             type: string
             default: ""
         steps:
           - *auth_google
           - run:
               rookout_tags: <<parameters.rookout_tags>>
-              script: <<parameters.script>>
+              script_a: <<parameters.script>>
             
     executors:
       default:
@@ -39,7 +39,7 @@ orbs:
           rookout_tags:
             type: string
             default: "$CIRCLE_PROJECT_REPONAME;$CIRCLE_JOB;circle-ci"
-          script:
+          script_a:
             type: string
         steps:
             # this checkout is not needed
@@ -55,8 +55,8 @@ orbs:
                 echo 'export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"' >> $BASH_ENV
                 source $BASH_ENV
                 
-                if [ "<<parameters.script>>" != "" ]; then
-                    rookout-node <<parameters.script>>
+                if [ "<<parameters.script_a>>" != "" ]; then
+                    rookout-node <<parameters.script_a>>
                 fi
 
 
@@ -71,7 +71,7 @@ jobs:
       - run: sudo mkdir -p /root/Rookout/workspace
       - *auth_google
       - rookout-node/run:
-          script: node ~/Rookout/test1.js
+          script_a: node ~/Rookout/test1.js
              
       
 version: 2.1
