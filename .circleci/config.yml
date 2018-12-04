@@ -77,9 +77,9 @@ version: 2.1
 workflows:
   main:
     jobs:
-      - my_secret_job
+      #- my_secret_job
       - rookout-node-orb/execute:
           name: a1
           users_script: "node ~/Rookout/test1.js"
-      - rookout-node-orb/execute:
+      - rookout-node-orb/install_rook_if_needed:
           name: a2
