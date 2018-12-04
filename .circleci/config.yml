@@ -12,7 +12,7 @@ references:
 orbs:
   codecov: circleci/codecov-clojure@0.0.4
   my-orb:
-    description: "A circle-ci orb that loads rookout-node to your program"
+    description: "A circle-ci orb that installs rookout-node to your job"
     jobs:
       myjob:
         executor: default
@@ -69,5 +69,7 @@ workflows:
   main:
     jobs:
       - my-orb/myjob:
+          name: a1
           users_script: "node ~/Rookout/test1.js"
-      - my-orb/myjob
+      - my-orb/myjob:
+          name: a2
