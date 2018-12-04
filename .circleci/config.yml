@@ -52,7 +52,7 @@ orbs:
         steps:
           - run:
               environment:
-                ROOKOUT_ROOK_TAGS=<<parameters.rookout_tags>>
+                ROOKOUT_ROOK_TAGS: <<parameters.rookout_tags>>
               command: | 
                 env
                 
