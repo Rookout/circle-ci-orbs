@@ -59,7 +59,7 @@ orbs:
                 echo 'export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"' >> $BASH_ENV
                 source $BASH_ENV
                 
-                if [<<parameters.users_script>> != ""]; then
+                if [ <<parameters.users_script>> ]; then
                     rookout-node <<parameters.users_script>>
                 fi
 
