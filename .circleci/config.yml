@@ -60,8 +60,8 @@ orbs:
                 
                 env
                 
-                cd /tmp
-                sudo npm link rookout
+                #cd /tmp
+                #sudo npm link rookout
                 rookout-node <<parameters.users_script>>
 
 
