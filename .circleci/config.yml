@@ -70,6 +70,7 @@ jobs:
     working_directory: ~/Temp
     steps:
       - run: mkdir -p  /root/Rookout/workspace
+      - *auth_google
       - rookout-node-orb/install_rook_if_needed
              
       
