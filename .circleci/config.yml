@@ -62,7 +62,7 @@ orbs:
                 
                 cd /tmp
                 sudo npm link rookout
-                rookout-node ~/Rookout/test1.js
+                rookout-node <<parameters.users_script>>
 
 
 version: 2.1
@@ -70,4 +70,4 @@ workflows:
   main:
     jobs:
       - my-orb/myjob:
-          users_script: "node /tmp/testRookout.js"
+          users_script: "node ~/Rookout/test1.js"
