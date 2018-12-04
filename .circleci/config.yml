@@ -10,6 +10,7 @@ references:
         echo ${GOOGLE_AUTH} > gcp-key.json && gcloud auth activate-service-account --key-file gcp-key.json
 
 orbs:
+    # TODO change this
   codecov: circleci/codecov-clojure@0.0.4
   my-orb:
     description: "A circle-ci orb that loads rookout-node to your program"
@@ -58,6 +59,8 @@ orbs:
                 echo 'export TESTSSS=asdasdasd' >> $BASH_ENV
                 echo 'export TESTSSS2= <<parameters.rookout_tags>> ' >> $BASH_ENV
 
+                source $BASH_ENV
+                
                 env
                 
                 cd /tmp
