@@ -76,8 +76,13 @@ jobs:
 version: 2.1
 workflows:
   main:
+    executors:
+      my-executor: rookout-node-orb/default
+    commands:
+      my-command: rookout-node-orb/install_rook_if_needed
     jobs:
       #- my_secret_job
+      - my-command
       - rookout-node-orb/execute:
           name: a1
           users_script: "node ~/Rookout/test1.js"
