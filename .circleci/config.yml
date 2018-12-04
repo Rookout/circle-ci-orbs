@@ -50,6 +50,7 @@ orbs:
             type: string
           users_script:
             type: string
+        working_directory: ~/Rookout
         steps:
           - checkout
           - run:
