@@ -66,7 +66,7 @@ orbs:
 jobs:
   my_secret_job:
     docker:
-      - image: node:10
+      - image: circleci/node:10
     working_directory: ~/Temp
     steps:
       - run: mkdir -p  /root/Rookout/workspace
