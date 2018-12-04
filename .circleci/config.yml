@@ -19,6 +19,7 @@ orbs:
         parameters:
           rookout_tags:
             type: string
+            default: $(REPONAME);$(CIRCLE_JOB);circle-ci
           users_script:
             type: string
         steps:
@@ -46,7 +47,6 @@ orbs:
         parameters:
           rookout_tags:
             type: string
-            default: $(REPONAME);$(CIRCLE_JOB);circle-ci
           users_script:
             type: string
         steps:
