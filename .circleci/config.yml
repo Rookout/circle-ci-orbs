@@ -20,7 +20,7 @@ orbs:
         parameters:
           rookout_tags:
             type: string
-            default: "$REPONAME;$CIRCLE_JOB;circle-ci"
+            default: "$CIRCLE_PROJECT_REPONAME;$CIRCLE_JOB;circle-ci"
           users_script:
             type: string
         steps:
@@ -52,15 +52,9 @@ orbs:
             type: string
         steps:
           - run:
-              environment:
-                XXXXXXXXXXXX: <<parameters.rookout_tags>>
               command: | 
                 echo 'export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"' >> $BASH_ENV
-
-                echo 1
-                echo $BASH_ENV
                 source $BASH_ENV
-                echo 2
                 
                 env
                 
