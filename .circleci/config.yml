@@ -53,12 +53,14 @@ orbs:
           - run:
               command: | 
                 echo 'export ROOKOUT_ROOK_TAGS=<<parameters.rookout_tags>>' >> $BASH_ENV
+                echo 'export TESTSSS=asdasdasd' >> $BASH_ENV
+                echo 'export TESTSSS2= <<parameters.rookout_tags>> ' >> $BASH_ENV
 
                 env
                 
                 cd /tmp
                 sudo npm link rookout
-                rookout-node <<parameters.users_script>>
+                # rookout-node <<parameters.users_script>>
 
 
 version: 2.1
