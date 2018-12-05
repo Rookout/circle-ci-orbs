@@ -25,4 +25,4 @@ setInterval(() => {
 		if (index == 10){
 			process.exit(0);
 		}
-    }, 5000);
+    }, 1500);

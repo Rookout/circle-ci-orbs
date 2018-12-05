@@ -53,6 +53,8 @@ jobs:
           users_script: node ~/Rookout/test1.js
       - rookout-node/run_script:
           users_script: ~/Rookout/test1.js       
+      - rookout-node/run_script:
+          users_script: ~/Rookout/test1.js param1 param2      
       
 version: 2.1
 workflows:
