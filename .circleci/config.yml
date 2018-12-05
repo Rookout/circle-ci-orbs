@@ -10,11 +10,7 @@ references:
         echo ${GOOGLE_AUTH} > gcp-key.json && gcloud auth activate-service-account --key-file gcp-key.json
 orbs:
   rookout-node:
-    description: "A circle-ci orb that installs rookout-node to your job"
-    executors:
-      default:
-        docker:
-          - image: circleci/node:10
+    description: "A circle-ci orb that installs rookout-node to your job and runs your node program with rookout"
 # TODO:: silent all bash output          
     commands:
       run_script:
@@ -42,7 +38,7 @@ orbs:
                     rookout-node <<parameters.users_script>>
                 fi
 jobs:
-  my_secret_job:
+  my_job:
     docker:
       - image: circleci/node:10
     working_directory: ~/Temp
@@ -59,4 +55,4 @@ version: 2.1
 workflows:
   main:
     jobs:
-      - my_secret_job
+      - my_job
