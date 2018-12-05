@@ -26,7 +26,7 @@ orbs:
               # Install rook if needed
               command: | 
                 if ! which rookout-node; then
-                  gsutil cp gs://rookout-rooks-artifacts/rooks-nodejs/0.1.29/0.1.29+b76496/rookout-0.1.29.tgz .
+                  gsutil cp gs://rookout-rooks-artifacts/rooks-nodejs/0.1.29/0.1.29+6fa519/rookout-0.1.29.tgz .
                   sudo npm install --unsafe-perm -g rookout-0.1.29.tgz
                 fi
           - run:
