@@ -49,7 +49,10 @@ jobs:
       - *auth_google
       - rookout-node/run_script:
           users_script: node --trace-warnings --trace-sync-io --title=xxxxxxx ~/Rookout/test1.js
-             
+      - rookout-node/run_script:
+          users_script: node ~/Rookout/test1.js
+      - rookout-node/run_script:
+          users_script: ~/Rookout/test1.js       
       
 version: 2.1
 workflows:

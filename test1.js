@@ -1,5 +1,7 @@
 console.log(new Date(Date.now()).toLocaleString() +  " HelloWorld");
 
+console.log(process.argv);
+
 const animals = ["Aardvark",
     "Abyssinian",
     "Affenpinscher",
