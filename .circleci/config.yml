@@ -11,22 +11,6 @@ references:
 orbs:
   rookout-node:
     description: "A circle-ci orb that installs rookout-node to your job"
-    jobs:
-      execute:
-        executor: default
-        parameters:
-          rookout_tags:
-            type: string
-            default: "$CIRCLE_PROJECT_REPONAME;$CIRCLE_JOB;circle-ci"
-          users_script:
-            type: string
-            default: ""
-        steps:
-          - *auth_google
-          - run_script:
-              rookout_tags: <<parameters.rookout_tags>>
-              users_script: <<parameters.users_script>>
-            
     executors:
       default:
         docker:
