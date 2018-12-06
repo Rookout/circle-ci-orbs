@@ -12,9 +12,15 @@ jobs:
       - checkout:
           path: ~/Rookout
       - rookout-node/run_script:
-          users_script: "node --trace-warnings --trace-sync-io --title=xxxxxxx ~/Rookout/test1.js"
+          users_script: "node --trace-warnings --trace-sync-io --title=xxxxxxx ~/Rookout/example_app.js"
           rookout_tags: "asdf;asdf2"
-      
+      - rookout-node/run_script:
+          users_script: "node ~/Rookout/example_app.js"
+      - rookout-node/run_script:
+          users_script: "~/Rookout/example_app.js"
+      - rookout-node/run_script:
+          users_script: "~/Rookout/example_app.js p1 p2 p3"
+
 version: 2.1
 workflows:
   main:
