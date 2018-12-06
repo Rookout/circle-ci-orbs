@@ -1,5 +1,5 @@
 orbs:
-  some-orb: rookout/rookout-node@0.0.1
+  some-orb: rookout/rookout-node
   
 jobs:
   my_job:
