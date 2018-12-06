@@ -1,7 +1,5 @@
 orbs:
   some-orb: rookout/rookout-node@0.0.1
-commands:
-  my-command: some-orb/run_script
   
 jobs:
   my_job:
@@ -11,7 +9,7 @@ jobs:
     steps:
       - checkout:
           path: ~/Rookout
-      - my-command:
+      - some-orb/run_script:
           users_script: node --trace-warnings --trace-sync-io --title=xxxxxxx ~/Rookout/test1.js
       - my-command:
           users_script: node ~/Rookout/test1.js
