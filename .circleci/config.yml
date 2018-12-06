@@ -1,7 +1,7 @@
 orbs:
   rookout-node: rookout/rookout-node@0.0.2
 
-description: "A circle-ci orb that installs rookout-node to your job and runs your node program with rookout"
+description: "A circle-ci job that uses rookout-node to debug a node command"
   
 jobs:
   my_job:

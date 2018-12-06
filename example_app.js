@@ -2,13 +2,12 @@ console.log(new Date(Date.now()).toLocaleString() +  " HelloWorld");
 
 console.log(process.argv);
 
-const animals = ["Aardvark",
-    "Abyssinian",
-    "Affenpinscher",
-    "Akbash",
-    "Zebu",
-    "Zonkey",
-    "Zorseqdwewqeqweqweqweqw"];
+const animals = ["Dog",
+    "Cat",
+    "Fish",
+    "BigDog",
+    "TinyCat",
+    "FishFish"];
 	
 function a() {
 	let animal = animals[Math.floor(Math.random()*animals.length)];
