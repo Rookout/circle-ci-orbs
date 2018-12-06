@@ -1,17 +1,7 @@
-references:
-  auth_google: &auth_google
-    run:
-      command: |
-        sudo apt-get update && sudo apt-get install lsb-core 
-        export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
-        echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-        curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-        sudo apt-get update && sudo apt-get install google-cloud-sdk
-        echo ${GOOGLE_AUTH} > gcp-key.json && gcloud auth activate-service-account --key-file gcp-key.json
+description: "A circle-ci orb that installs rookout-node to your job and runs your node program with rookout"
+
 orbs:
-  rookout-node:
-    description: "A circle-ci orb that installs rookout-node to your job and runs your node program with rookout"
-# TODO:: silent all bash output          
+  rookout-node:    
     commands:
       run_script:
         parameters:
@@ -21,13 +11,11 @@ orbs:
           users_script:
             type: string
         steps:
-            # this checkout is not needed
           - run: 
               # Install rook if needed
               command: | 
                 if ! which rookout-node; then
-                  gsutil cp gs://rookout-rooks-artifacts/rooks-nodejs/0.1.29/0.1.29+fab633/rookout-0.1.29.tgz .
-                  sudo npm install --unsafe-perm -g rookout-0.1.29.tgz
+                  sudo npm install --unsafe-perm -g rookout
                 fi
           - run:
               command: | 
