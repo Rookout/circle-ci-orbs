@@ -1,5 +1,7 @@
 orbs:
   rookout-node-import: rookout/rookout-node@0.0.1
+commands:
+  my-command: rookout-node-import/run_script
   
 jobs:
   my_job:
@@ -9,13 +11,13 @@ jobs:
     steps:
       - checkout:
           path: ~/Rookout
-      - rookout-node-import/run_script:
+      - my-command:
           users_script: node --trace-warnings --trace-sync-io --title=xxxxxxx ~/Rookout/test1.js
-      - rookout-node-import/run_script:
+      - my-command:
           users_script: node ~/Rookout/test1.js
-      - rookout-node-import/run_script:
+      - my-command:
           users_script: ~/Rookout/test1.js       
-      - rookout-node-import/run_script:
+      - my-command:
           users_script: ~/Rookout/test1.js param1 param2      
       
 version: 2.1
