@@ -1,0 +1,28 @@
+version: 2.1
+description: "A circle-ci orb that installs rookout-node to your job and runs your node program with rookout"
+
+orbs:
+  rookout-node:
+    commands:
+      run_script:
+        parameters:
+          rookout_tags:
+            type: string
+            default: "$CIRCLE_PROJECT_REPONAME;$CIRCLE_JOB;circle-ci"
+          users_script:
+            type: string
+        steps:
+          - run: 
+              # Install rook if needed
+              command: | 
+                if ! which rookout-node; then
+                  sudo npm install --unsafe-perm -g rookout
+                fi
+          - run:
+              command: | 
+                echo 'export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"' >> $BASH_ENV
+                source $BASH_ENV
+                
+                if [ "<<parameters.users_script>>" != "" ]; then
+                    rookout-node <<parameters.users_script>>
+                fi
