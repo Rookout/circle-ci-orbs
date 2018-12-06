@@ -1,7 +1,7 @@
 orbs:
-  rookout-node-import: rookout/rookout-node@0.0.1
+  some-orb: rookout/rookout-node@0.0.1
 commands:
-  my-command: rookout-node-import/run_script
+  my-command: some-orb/run_script
   
 jobs:
   my_job:
