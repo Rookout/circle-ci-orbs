@@ -1,15 +1,10 @@
 console.log(new Date(Date.now()).toLocaleString() +  " HelloWorld");
 
-console.log(process.argv);
-
-const animals = ["Dog",
-    "Cat",
-    "Fish",
-    "BigDog",
-    "TinyCat",
-    "FishFish"];
+const animals = ["Rook",
+    "Big Rook",
+    "Small Rook"];
 	
-function a() {
+function func() {
 	let animal = animals[Math.floor(Math.random()*animals.length)];
 	console.log(animal);
 }
@@ -17,11 +12,10 @@ function a() {
 var index = 0;
 
 setInterval(() => {
-        console.log(new Date(Date.now()).toLocaleString() + " iteration");
-		a();
+        func();
 		
 		index = index + 1;
-		if (index == 10){
+		if (index == 5){
 			process.exit(0);
 		}
     }, 1500);

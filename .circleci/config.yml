@@ -1,5 +1,5 @@
 orbs:
-  rookout-node: rookout/rookout-node@0.0.2
+  rookout-node: rookout/rookout-node@0.0.3
 
 description: "A circle-ci job that uses rookout-node to debug a node command"
   
