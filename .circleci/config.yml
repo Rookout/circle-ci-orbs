@@ -1,8 +1,62 @@
-orbs:
-  rookout-node: rookout/rookout-node@0.0.2
+#orbs:
+#  rookout-node: rookout/rookout-node@0.0.2
 
 description: "A circle-ci job that uses rookout-node to debug a node command"
-  
+references:
+  auth_google: &auth_google
+    run:
+      command: |
+        sudo apt-get update && sudo apt-get install lsb-core
+        export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
+        echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+        curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+        sudo apt-get update && sudo apt-get install google-cloud-sdk
+        echo ${GOOGLE_AUTH} > gcp-key.json && gcloud auth activate-service-account --key-file gcp-key.json
+
+orbs:
+  rookout-node:
+    description: "A circle-ci orb that installs rookout-node to your job and runs your node program with rookout"
+# TODO:: silent all bash output
+    commands:
+      run_script:
+          description: "Specify your ROOKOUT_TOKEN in your circle-ci project Environment Variables"
+          parameters:
+            users_script:
+                    description: "Your node command that you wish to debug"
+                    type: string
+            rookout_tags:
+              description: "The list of tags you want for your application instances. Use ; as a separator for environment variables"
+              type: string
+              default: "$CIRCLE_PROJECT_REPONAME;$CIRCLE_JOB;circle-ci"
+          steps:
+            - run:
+                description: "Install rook if needed"
+                command: |
+                  if ! which npm; then
+                    echo "[Rookout] npm is not install in this image - please install npm.
+                    exit 1
+                  fi
+
+                  if which sudo; then
+                    if ! sudo -v; then
+                      sudo npm install --unsafe-perm -g rookout
+                    else
+                      echo "[Rookout] could not run sudo command; please enable sudo for current user"
+                      exit 1
+                    fi
+                  else
+                    npm install --unsafe-perm -g rookout
+                  fi
+
+            - run:
+                command: |
+                  echo 'export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"' >> $BASH_ENV
+                  source $BASH_ENV
+
+                  if [ "<<parameters.users_script>>" != "" ]; then
+                      rookout-node <<parameters.users_script>>
+                  fi
+
 jobs:
   my_job:
     docker:

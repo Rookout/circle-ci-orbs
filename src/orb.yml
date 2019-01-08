@@ -19,9 +19,22 @@ commands:
       - run:
           description: "Install rook if needed"
           command: |
-            if ! which rookout-node; then
-              sudo npm install --unsafe-perm -g rookout
+            if ! which npm; then
+              echo "[Rookout] npm is not install in this image - please install npm.
+              exit 1
             fi
+
+            if which sudo; then
+              if ! sudo -v; then
+                sudo npm install --unsafe-perm -g rookout
+              else
+                echo "[Rookout] could not run sudo command; please enable sudo for current user"
+                exit 1
+              fi
+            else
+              npm install --unsafe-perm -g rookout
+            fi
+
       - run:
           command: |
             echo 'export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"' >> $BASH_ENV
