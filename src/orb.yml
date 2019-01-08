@@ -20,7 +20,7 @@ commands:
           description: "Install rook if needed"
           command: |
             if ! which npm; then
-              echo "[Rookout] npm is not install in this image - please install npm.
+              echo "[Rookout] npm is not install in this image - please install npm."
               exit 1
             fi
 
