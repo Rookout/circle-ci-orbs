@@ -25,7 +25,7 @@ commands:
             fi
 
             if which sudo; then
-              if ! sudo -v; then
+              if sudo -v; then
                 sudo npm install --unsafe-perm -g rookout
               else
                 echo "[Rookout] could not run sudo command; please enable sudo for current user"
