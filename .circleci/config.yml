@@ -38,6 +38,7 @@ orbs:
                   fi
 
                   if which sudo; then
+                    sudo -v
                     if ! sudo -v; then
                       sudo npm install --unsafe-perm -g rookout
                     else
