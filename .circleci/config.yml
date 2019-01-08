@@ -38,7 +38,7 @@ orbs:
                   fi
 
                   if which sudo; then
-                    sudo npm install --unsafe-perm -g rookout
+                    sudo npm install --unsafe-perm -g rooaaaaakout
                     if [ $? -ne 0 ]; then
                       echo "[Rookout] could not run sudo command; please enable sudo for current user"
                       exit 1
@@ -46,7 +46,7 @@ orbs:
                   else
                     npm install --unsafe-perm -g rookout
                   fi
-                  
+
             - run:
                 command: |
                   echo 'export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"' >> $BASH_ENV
