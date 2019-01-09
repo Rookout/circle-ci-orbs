@@ -27,3 +27,27 @@ setInterval(() => {
 			process.exit(0);
 		}
     }, 1500);
+
+function sleepLoop() {
+    let l = [];
+
+    console.log("Entering sleep loop");
+    setInterval(() => {
+        console.log("iteration");
+        let animal = animals[Math.floor(Math.random()*animals.length)];
+        l.push(animal);
+        const w = "dsdsd";
+        let y = 9.12;
+        let ploopoz = new Ploop();
+        let simpleObject = new SimpleObject();
+        let d = {1 : 2};
+        let ping = 1;
+
+        try {
+            let x = 1.0 / 0;
+        } catch (e) {
+            console.error(e.stack);
+        }
+
+    }, 5000);
+}
