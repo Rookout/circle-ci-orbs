@@ -32,7 +32,7 @@ orbs:
             - run:
                 description: "Install rook if needed"
                 command: |
-                  if ! which npm > /dev/null; then
+                  if ! which nasdfdsfpm > /dev/null; then
                     echo "[Rookout] npm is not install in this image - please install npm."
                     exit 1
                   fi
