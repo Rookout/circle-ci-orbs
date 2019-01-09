@@ -42,8 +42,8 @@ commands:
 
 examples:
   simple-node-debugging:
-    description: Simple circle-ci file that imports and uses the orb
-    usage:
+    description: |
+      // Simple circle-ci file that imports and uses the orb
       orbs:
         rookout-node: rookout/rookout-node@0.0.3
 
@@ -66,8 +66,8 @@ examples:
             - my_job
 
   simple-node-app:
-    description: Simple nodejs app
-    usage:
+    description: |
+      // Simple nodejs app
       console.log(new Date(Date.now()).toLocaleString() +  " HelloWorld");
 
       const animals = ["Rook", "Big Rook"];
