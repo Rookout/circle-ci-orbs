@@ -4,7 +4,7 @@ orbs:
 description: "A circle-ci job that uses rookout-node to debug a node command"
   
 jobs:
-  my_job:
+  buggy_job:
     docker:
       - image: circleci/node:10
     working_directory: ~/Temp
@@ -12,17 +12,10 @@ jobs:
       - checkout:
           path: ~/Rookout
       - rookout-node/run_script:
-          users_script: "node --trace-warnings --trace-sync-io --title=xxxxxxx ~/Rookout/example_app.js"
-          rookout_tags: "asdf;asdf2"
-      - rookout-node/run_script:
-          users_script: "node ~/Rookout/example_app.js"
-      - rookout-node/run_script:
-          users_script: "~/Rookout/example_app.js"
-      - rookout-node/run_script:
-          users_script: "~/Rookout/example_app.js p1 p2 p3"
+          users_script: "~/Rookout/example_app.js param1"
 
 version: 2.1
 workflows:
   main:
     jobs:
-      - my_job
+      - buggy_job
