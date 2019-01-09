@@ -24,7 +24,7 @@ setInterval(() => {
 
 		index = index + 1;
 		if (index == 5){
-			process.exit(0);
+			process.exit(1);
 		}
     }, 1500);
 
