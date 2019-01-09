@@ -9,8 +9,8 @@ commands:
     description: "Specify your ROOKOUT_TOKEN in your circle-ci project Environment Variables"
     parameters:
       users_script:
-              description: "Your node command that you wish to debug"
-              type: string
+        description: "Your node command that you wish to debug"
+        type: string
       rookout_tags:
         description: "The list of tags you want for your application instances. Use ; as a separator for environment variables"
         type: string
@@ -19,17 +19,13 @@ commands:
       - run:
           description: "Install rook if needed"
           command: |
-            if ! which npm; then
+            if ! which npm > /dev/null; then
               echo "[Rookout] npm is not install in this image - please install npm."
               exit 1
             fi
 
-            if which sudo; then
+            if which sudo > /dev/null; then
               sudo npm install --unsafe-perm -g rookout
-              if [ $? -ne 0 ]; then
-                echo "[Rookout] could not run sudo command; please enable sudo for current user"
-                exit 1
-              fi
             else
               npm install --unsafe-perm -g rookout
             fi
