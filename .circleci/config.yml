@@ -12,7 +12,7 @@ jobs:
       - checkout:
           path: ~/Rookout
       - rookout-node/run_script:
-          users_scipt: "~/Rookout/example_app.js param1"
+          users_script: "~/Rookout/example_app.js param1"
 
 version: 2.1
 workflows:
