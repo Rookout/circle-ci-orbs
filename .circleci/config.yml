@@ -16,14 +16,13 @@ references:
 orbs:
   rookout-node:
     description: "A circle-ci orb that installs rookout-node to your job and runs your node program with rookout"
-# TODO:: silent all bash output
     commands:
       run_script:
           description: "Specify your ROOKOUT_TOKEN in your circle-ci project Environment Variables"
           parameters:
             users_script:
-                    description: "Your node command that you wish to debug"
-                    type: string
+              description: "Your node command that you wish to debug"
+              type: string
             rookout_tags:
               description: "The list of tags you want for your application instances. Use ; as a separator for environment variables"
               type: string
@@ -32,7 +31,7 @@ orbs:
             - run:
                 description: "Install rook if needed"
                 command: |
-                  if ! which nasdfdsfpm > /dev/null; then
+                  if ! which npm > /dev/null; then
                     echo "[Rookout] npm is not install in this image - please install npm."
                     exit 1
                   fi
