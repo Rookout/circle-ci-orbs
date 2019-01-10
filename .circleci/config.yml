@@ -3,15 +3,6 @@ orbs:
   rookout-node: rookout/rookout-node@dev:asdf
 
 jobs:
-  publish_orb:
-    docker:
-      - image: circleci/node:10
-    steps:
-      - orb-tools/publish:
-          orb-path: src/orb.yml
-          orb-ref: rookout/rookout-node@dev:asdf
-          publish-token-variable: "$CIRCLECI_DEV_API_TOKEN"
-          validate: true
   my_job:
     docker:
       - image: circleci/node:10
@@ -33,9 +24,13 @@ version: 2.1
 workflows:
   main:
     jobs:
-      - publish_orb
+      - orb-tools/publish:
+          orb-path: src/orb.yml
+          orb-ref: rookout/rookout-node@dev:asdf
+          publish-token-variable: "$CIRCLECI_DEV_API_TOKEN"
+          validate: true
       - my_job:
           requires:
-            - publish_orb
+            - "orb-tools/publish"
       # increase version: (needs admin token)
       # circleci orb publish increment src/orb.yml rookout/rookout-node patch
