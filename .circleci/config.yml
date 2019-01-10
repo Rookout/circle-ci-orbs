@@ -1,6 +1,6 @@
 orbs:
   orb-tools: circleci/orb-tools@2.0.0
-  rookout-node: rookout/rookout-node@dev:asdf
+  rookout-node: rookout/rookout-node@dev:${BRANCH_NAME:0.0.3}
 
 jobs:
   my_job:
@@ -19,6 +19,14 @@ jobs:
           users_script: "~/Rookout/examples/example_app.js"
       - rookout-node/run_script:
           users_script: "~/Rookout/examples/example_app.js p1 p2 p3"
+          
+  trigger_build:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - run:
+          command: |
+          curl -u ${CIRCLE_API_USER_TOKEN} -d build_parameters[CIRCLE_JOB]=deploy_docker https://circleci.com/api/v1.1/project/<vcs-type>/<org>/<repo>/tree/<branch>
 
 version: 2.1
 workflows:
@@ -26,10 +34,10 @@ workflows:
     jobs:
       - orb-tools/publish:
           orb-path: src/orb.yml
-          orb-ref: rookout/rookout-node@dev:asdf
+          orb-ref: rookout/rookout-node@dev:${BRANCH_NAME}
           publish-token-variable: "$CIRCLECI_DEV_API_TOKEN"
           validate: true
-      - my_job:
+      - trigger_build:
           requires:
             - "orb-tools/publish"
       # increase version: (needs admin token)
