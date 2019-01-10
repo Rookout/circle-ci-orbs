@@ -1,9 +1,8 @@
 orbs:
   orb-tools: circleci/orb-tools@2.0.0
+  rookout-node: rookout/rookout-node@dev:asdf
 
 jobs:
-  orbs:
-    rookout-node: rookout/rookout-node@dev:asdf
   publish_orb:
     docker:
       - image: circleci/node:10
