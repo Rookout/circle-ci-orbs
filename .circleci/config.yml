@@ -35,7 +35,7 @@ workflows:
   main:
     jobs:
       - publish_orb
-      - my_job
+      - my_job:
           requires:
             - publish_orb
       # increase version: (needs admin token)
