@@ -1,5 +1,5 @@
 orbs:
-  rookout-node: rookout/rookout-node@0.0.2
+  rookout-node: rookout/rookout-node@dev:${CIRCLE_BRANCH}
   orb-tools: circleci/orb-tools@2.0.0
 
 jobs:
