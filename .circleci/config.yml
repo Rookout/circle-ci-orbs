@@ -1,5 +1,5 @@
 orbs:
-  rookout-node: rookout/rookout-node@dev:${CIRCLE_BRANCH}
+  rookout-node: rookout/rookout-node@dev:make_orb_better
   orb-tools: circleci/orb-tools@2.0.0
 
 jobs:
@@ -30,3 +30,5 @@ workflows:
           orb-ref: rookout/rookout-node@dev:${CIRCLE_BRANCH}
           publish-token-variable: "$CIRCLECI_DEV_API_TOKEN"
           validate: true
+      # increase version: (needs admin token)
+      # circleci orb publish increment src/orb.yml rookout/rookout-node patch
