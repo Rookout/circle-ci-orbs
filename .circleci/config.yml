@@ -1,6 +1,6 @@
 orbs:
   orb-tools: circleci/orb-tools@2.0.0
-  rookout-node: rookout/rookout-node@dev:${BRANCH_NAME:0.0.3}
+  rookout-node: rookout/rookout-node@dev:${BRANCH_NAME:-0.0.3}
 
 jobs:
   my_job:
