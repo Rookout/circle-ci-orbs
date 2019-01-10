@@ -1,8 +1,7 @@
 orbs:
-  rookout-node: rookout/rookout-node@0.0.2
+  orb-tools: circleci/orb-tools@2.0.0
+  rookout-node: rookout/rookout-node@0.0.7
 
-description: "A circle-ci job that uses rookout-node to debug a node command"
-  
 jobs:
   my_job:
     docker:
@@ -12,17 +11,26 @@ jobs:
       - checkout:
           path: ~/Rookout
       - rookout-node/run_script:
-          users_script: "node --trace-warnings --trace-sync-io --title=xxxxxxx ~/Rookout/example_app.js"
+          users_script: "node --trace-warnings --trace-sync-io --title=xxxxxxx ~/Rookout/examples/example_app.js"
           rookout_tags: "asdf;asdf2"
       - rookout-node/run_script:
-          users_script: "node ~/Rookout/example_app.js"
+          users_script: "node ~/Rookout/examples/example_app.js"
       - rookout-node/run_script:
-          users_script: "~/Rookout/example_app.js"
+          users_script: "~/Rookout/examples/example_app.js"
       - rookout-node/run_script:
-          users_script: "~/Rookout/example_app.js p1 p2 p3"
+          users_script: "~/Rookout/examples/example_app.js p1 p2 p3"
 
 version: 2.1
 workflows:
   main:
     jobs:
-      - my_job
+      - orb-tools/publish:
+          orb-path: src/orb.yml
+          orb-ref: rookout/rookout-node@dev:${CIRCLE_BRANCH}
+          publish-token-variable: "$CIRCLECI_DEV_API_TOKEN"
+          validate: true
+      - my_job:
+          requires:
+            - "orb-tools/publish"
+      # increase version: (needs admin token)
+      # circleci orb publish increment src/orb.yml rookout/rookout-node patch

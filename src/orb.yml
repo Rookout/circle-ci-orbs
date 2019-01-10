@@ -1,0 +1,66 @@
+version: 2.1
+description: |
+  A circle-ci orb that installs rookout-node to your job and runs your node program with rookout. 
+  Explore our github repository for further information: https://github.com/Rookout/circle-ci-orbs.
+  Orb dependencies: bash, nodejs, npm, sudo\root access.
+
+commands:
+  run_script:
+    description: "Specify your ROOKOUT_TOKEN in your circle-ci project Environment Variables"
+    parameters:
+      users_script:
+        description: "Your node command that you wish to debug"
+        type: string
+      rookout_tags:
+        description: "The list of tags you want for your application instances. Use ; as a separator"
+        type: string
+        default: "$CIRCLE_PROJECT_REPONAME;$CIRCLE_JOB;circle-ci"
+    steps:
+      - run:
+          description: "Install rook if needed"
+          command: |
+            if ! which npm > /dev/null; then
+              echo "[Rookout] npm is not install in this image - please install npm."
+              exit 1
+            fi
+
+            if which sudo > /dev/null; then
+              sudo npm install --unsafe-perm -g rookout
+            else
+              npm install --unsafe-perm -g rookout
+            fi
+
+      - run:
+          description: ""
+          command: |
+            echo 'export ROOKOUT_ROOK_TAGS="<<parameters.rookout_tags>>"' >> $BASH_ENV
+            source $BASH_ENV
+
+            if [ "<<parameters.users_script>>" != "" ]; then
+                rookout-node <<parameters.users_script>>
+            fi
+
+examples:
+  simple-node-debugging:
+    description: Simple circle-ci file that imports and uses the orb
+    usage:
+      orbs:
+        rookout-node: rookout/rookout-node@0.0.4
+
+      description: "A circle-ci job that uses rookout-node to debug a node command"
+
+      jobs:
+        my_job:
+          docker:
+            - image: circleci/node:10
+          working_directory: ~/Temp
+          steps:
+            - rookout-node/run_script:
+                users_script: "node %YOUR_NODE_COMMAND%"
+                rookout_tags: "yourTag1;yourTag2"
+
+      version: 2.1
+      workflows:
+        main:
+          jobs:
+            - my_job
