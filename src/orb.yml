@@ -19,7 +19,6 @@ commands:
       - run:
           description: "Install rook if needed"
           command: |
-            echo "updatre::todo::delete::nmew"
             if ! which npm > /dev/null; then
               echo "[Rookout] npm is not install in this image - please install npm."
               exit 1
