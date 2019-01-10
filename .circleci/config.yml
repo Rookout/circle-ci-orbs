@@ -1,5 +1,5 @@
 orbs:
-  rookout-node: rookout/rookout-node@dev:make_orb_better
+  rookout-node: rookout/rookout-node@dev:asdf
   orb-tools: circleci/orb-tools@2.0.0
 
 jobs:
@@ -27,7 +27,7 @@ workflows:
       - my_job
       - orb-tools/publish:
           orb-path: src/orb.yml
-          orb-ref: rookout/rookout-node@dev:${CIRCLE_BRANCH}
+          orb-ref: rookout/rookout-node@dev:asdf
           publish-token-variable: "$CIRCLECI_DEV_API_TOKEN"
           validate: true
       # increase version: (needs admin token)
