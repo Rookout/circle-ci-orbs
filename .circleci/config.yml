@@ -24,10 +24,7 @@ version: 2.1
 workflows:
   lint_pack-validate_publish-dev:
     jobs:
-      - orb-tools/lint
       - orb-tools/pack:
-          requires:
-            - orb-tools/lint
       - orb-tools/publish-dev:
           context: orb-publishing
           orb-name: rookout/rookout-node
