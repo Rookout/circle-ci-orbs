@@ -26,7 +26,6 @@ workflows:
     jobs:
       - orb-tools/pack
       - orb-tools/publish-dev:
-          context: orb-publishing
           orb-name: rookout/rookout-node
           requires:
             - orb-tools/pack
