@@ -70,16 +70,8 @@ workflows:
 
   integration_tests-prod_deploy:
     jobs:
-      - statustestpass:
-          name: statustestpass-dev
-          context: orb-publishing
-          filters: *integration-dev_filters
-
-      - approvaltest:
-          name: approvaltest-dev
-          context: orb-publishing
-          filters: *integration-dev_filters
-
+      - my_job
+          
 
 
 
