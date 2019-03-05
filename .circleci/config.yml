@@ -2,6 +2,7 @@ orbs:
   orb-tools: circleci/orb-tools@8.3.0
   rookout-node: rookout/rookout-node@0.0.7
 
+
 jobs:
   my_job:
     docker:
@@ -69,18 +70,15 @@ workflows:
 
   integration_tests-prod_deploy:
     jobs:
-      # triggered by non-master branch commits
-      - notifytest:
-          name: notifytest-dev
+      - statustestpass:
+          name: statustestpass-dev
           context: orb-publishing
           filters: *integration-dev_filters
 
-      # triggered by master branch commits
-      - notifytest:
-          name: notifytest-master
+      - approvaltest:
+          name: approvaltest-dev
           context: orb-publishing
-          filters: *integration-master_filters
-
+          filters: *integration-dev_filters
 
 
 
