@@ -22,7 +22,7 @@ jobs:
 
 version: 2.1
 workflows:
-  lint_pack-validate_publish-dev:
+  pack-validate_publish-dev:
     jobs:
       - orb-tools/pack
       - orb-tools/publish-dev:
@@ -38,7 +38,24 @@ workflows:
           filters:
             branches:
               ignore: master
+      - orb-tools/trigger-integration-workflow:
+          name: trigger-integration-master
+          ssh-fingerprints: 26:d8:fe:04:01:0f:a1:51:34:87:46:67:ed:70:36:79
+          cleanup-tags: true
+          tag: master
+          requires:
+            - orb-tools/publish-dev
+          filters:
+            branches:
+              only: master
 
+  integration_tests-prod_deploy:
+    jobs:
+      # triggered by non-master branch commits
+      - notifytest:
+          name: notifytest-dev
+          context: orb-publishing
+          filters: *integration-dev_filters
       #- orb-tools/publish:
       #    orb-path: src/orb.yml
       #    orb-ref: rookout/rookout-node@dev:${CIRCLE_BRANCH}
