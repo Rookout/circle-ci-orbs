@@ -20,6 +20,13 @@ jobs:
       - rookout-node/run_script:
           users_script: "~/Rookout/examples/example_app.js p1 p2 p3"
 
+# yaml anchor filters
+integration-dev_filters: &integration-dev_filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /integration-.*/
+
 version: 2.1
 workflows:
   pack-validate_publish-dev:
@@ -56,6 +63,12 @@ workflows:
           name: notifytest-dev
           context: orb-publishing
           filters: *integration-dev_filters
+
+
+
+
+
+
       #- orb-tools/publish:
       #    orb-path: src/orb.yml
       #    orb-ref: rookout/rookout-node@dev:${CIRCLE_BRANCH}
