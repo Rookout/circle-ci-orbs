@@ -27,6 +27,17 @@ integration-dev_filters: &integration-dev_filters
   tags:
     only: /integration-.*/
 
+
+
+integration-master_filters: &integration-master_filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /master-.*/
+
+prod-deploy_requires: &prod-deploy_requires
+  [notifytest-master, statustestpass-master, approvaltest-master, approval-notification-job-master]
+
 version: 2.1
 workflows:
   pack-validate_publish-dev:
@@ -63,6 +74,12 @@ workflows:
           name: notifytest-dev
           context: orb-publishing
           filters: *integration-dev_filters
+
+      # triggered by master branch commits
+      - notifytest:
+          name: notifytest-master
+          context: orb-publishing
+          filters: *integration-master_filters
 
 
 
