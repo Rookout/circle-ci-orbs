@@ -4,6 +4,38 @@ orbs:
 
 
 jobs:
+  save_commit_message:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - run: export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1) && echo $COMMIT_MSG >> $BASH_ENV
+
+  commit_trigger_message:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - run: export NEW_COMMIT_MSG=[prod_deploy_workflow]::$COMMIT_MSG && git commit --allow-empty -m $NEW_COMMIT_MSG && git push -f
+
+  should_run_prod_deploy_workflow:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - run: |
+          if [ "$COMMIT_MSG" != "[prod_deploy_workflow]" ]; then
+            exit 1
+          fi
+
+  should_run_publish_dev_workflow:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - run: |
+          if [ "$COMMIT_MSG" = "[prod_deploy_workflow]" ]; then
+            exit 1
+          fi
+
   my_job:
     docker:
       - image: circleci/node:10
@@ -48,11 +80,20 @@ version: 2.1
 workflows:
   pack-validate_publish-dev:
     jobs:
-      - orb-tools/pack
+      - save_commit_message
+      - should_run_publish_dev_workflow:
+          requires:
+            - save_commit_message
+      - orb-tools/pack:
+          requires:
+            - should_run_publish_dev_workflow
       - orb-tools/publish-dev:
           orb-name: rookout/rookout-node
           requires:
             - orb-tools/pack
+      - commit_trigger_message:
+          requires:
+            - orb-tools/publish-dev
       - orb-tools/trigger-integration-workflow:
           name: trigger-integration-dev
           ssh-fingerprints: 26:d8:fe:04:01:0f:a1:51:34:87:46:67:ed:70:36:79
@@ -75,7 +116,13 @@ workflows:
 
   integration_tests-prod_deploy:
     jobs:
-      - my_job
+      - save_commit_message
+      - should_run_prod_deploy_workflow:
+          requires:
+            - save_commit_message
+      - my_job:
+          requires:
+            - should_run_prod_deploy_workflow
 
 
 
