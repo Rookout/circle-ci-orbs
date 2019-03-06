@@ -23,7 +23,7 @@ jobs:
       - run: |
           export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
           echo $COMMIT_MSG
-          if [[ $COMMIT_MSG == *"[prod_deploy_workflow]"* ]]; then
+          if [[ $COMMIT_MSG != *"[prod_deploy_workflow]"* ]]; then
             exit 1
           fi
 
