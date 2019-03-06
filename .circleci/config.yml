@@ -1,6 +1,6 @@
 orbs:
   orb-tools: circleci/orb-tools@8.3.0
-  rookout-node: rookout/rookout-node@0.0.7
+  rookout-node: rookout/rookout-node@dev:alpha
 
 
 jobs:
@@ -9,6 +9,7 @@ jobs:
       - image: circleci/node:10
     working_directory: ~/Temp
     steps:
+      - run: git log --format=oneline -n 1 $CIRCLE_SHA1
       - checkout:
           path: ~/Rookout
       - rookout-node/run_script:
@@ -73,8 +74,8 @@ workflows:
 
   integration_tests-prod_deploy:
     jobs:
-      - my_job:
-          requires: *req_req
+      - my_job
+
 
 
 
