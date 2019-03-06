@@ -17,7 +17,7 @@ jobs:
     steps:
       - checkout
       - run: git config --global user.email "sonario@rookout.com" && git config --global user.name "Sonario CircleCI"
-      - run: export NEW_COMMIT_MSG=[prod_deploy_workflow]::$COMMIT_MSG && git commit --allow-empty -m $NEW_COMMIT_MSG && git push -f
+      - run: export NEW_COMMIT_MSG=[prod_deploy_workflow]::$COMMIT_MSG && git commit --allow-empty -m $NEW_COMMIT_MSG && git push --set-upstream origin $CIRCLE_BRANCH -f
 
   should_run_prod_deploy_workflow:
     docker:
