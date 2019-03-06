@@ -10,6 +10,7 @@ jobs:
     steps:
       - checkout
       - run: export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1) && echo "export $COMMIT_MSG" >> $BASH_ENV
+      - run: echo $COMMIT_MSG
 
   commit_trigger_message:
     docker:
