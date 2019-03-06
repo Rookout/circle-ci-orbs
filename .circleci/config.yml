@@ -13,7 +13,7 @@ jobs:
           git config --global user.email "sonario@rookout.com" && git config --global user.name "Sonario CircleCI"
           export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
           echo $COMMIT_MSG
-          export NEW_COMMIT_MSG="[prod_deploy_workflow]::$COMMIT_MSG" && git commit --allow-empty -m "$NEW_COMMIT_MSG" && git push --set-upstream origin $CIRCLE_BRANCH -f
+          export NEW_COMMIT_MSG="[auto_prod_deploy_workflow]::$COMMIT_MSG" && git commit --allow-empty -m "$NEW_COMMIT_MSG" && git push --set-upstream origin $CIRCLE_BRANCH -f
 
   should_run_prod_deploy_workflow:
     docker:
@@ -23,7 +23,7 @@ jobs:
       - run: |
           export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
           echo $COMMIT_MSG
-          if [[ $COMMIT_MSG != *"[prod_deploy_workflow]"* ]]; then
+          if [[ $COMMIT_MSG != *"[auto_prod_deploy_workflow]"* ]]; then
             exit 1
           fi
 
@@ -35,7 +35,7 @@ jobs:
       - run: |
           export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
           echo $COMMIT_MSG
-          if [[ $COMMIT_MSG == *"[prod_deploy_workflow]"* ]]; then
+          if [[ $COMMIT_MSG != *"[auto_"* ]]; then
             exit 1
           fi
 
@@ -57,21 +57,6 @@ jobs:
           users_script: "~/Rookout/examples/example_app.js"
       - rookout-node/run_script:
           users_script: "~/Rookout/examples/example_app.js p1 p2 p3"
-
-# yaml anchor filters
-integration-dev_filters: &integration-dev_filters
-  branches:
-    ignore: /.*/
-  tags:
-    only: /integration-.*/
-
-
-
-integration-master_filters: &integration-master_filters
-  branches:
-    ignore: /.*/
-  tags:
-    only: /master-.*/
 
 prod-deploy_requires: &prod-deploy_requires
   [notifytest-master, statustestpass-master, approvaltest-master, approval-notification-job-master]
