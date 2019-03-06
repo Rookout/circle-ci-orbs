@@ -15,6 +15,7 @@ jobs:
           echo $COMMIT_MSG
           export NEW_COMMIT_MSG="[auto_prod_deploy_workflow]::$COMMIT_MSG" && git commit --allow-empty -m "$NEW_COMMIT_MSG" && git push --set-upstream origin $CIRCLE_BRANCH -f
 
+  # this is the second step
   should_run_prod_deploy_workflow:
     docker:
       - image: circleci/node:10
@@ -27,6 +28,7 @@ jobs:
             exit 1
           fi
 
+  # this is the first step
   should_run_publish_dev_workflow:
     docker:
       - image: circleci/node:10
@@ -57,6 +59,7 @@ jobs:
           users_script: "~/Rookout/examples/example_app.js"
       - rookout-node/run_script:
           users_script: "~/Rookout/examples/example_app.js p1 p2 p3"
+          
 
 prod-deploy_requires: &prod-deploy_requires
   [notifytest-master, statustestpass-master, approvaltest-master, approval-notification-job-master]
