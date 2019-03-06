@@ -16,6 +16,7 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout
+      - run: git config --global user.email "sonario@rookout.com" && git config --global user.name "Sonario CircleCI"
       - run: export NEW_COMMIT_MSG=[prod_deploy_workflow]::$COMMIT_MSG && git commit --allow-empty -m $NEW_COMMIT_MSG && git push -f
 
   should_run_prod_deploy_workflow:
