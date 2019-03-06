@@ -9,7 +9,7 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout
-      - run: echo pwd
+      - run: pwd
       - run: git config --global user.email "sonario@rookout.com" && git config --global user.name "Sonario CircleCI"
       - run: export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
       - run: echo $COMMIT_MSG
