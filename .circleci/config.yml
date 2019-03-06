@@ -39,6 +39,9 @@ integration-master_filters: &integration-master_filters
 prod-deploy_requires: &prod-deploy_requires
   [notifytest-master, statustestpass-master, approvaltest-master, approval-notification-job-master]
 
+req_req: &req_req
+  [trigger-integration-master]
+
 version: 2.1
 workflows:
   pack-validate_publish-dev:
@@ -70,8 +73,9 @@ workflows:
 
   integration_tests-prod_deploy:
     jobs:
-      - my_job
-          
+      - my_job:
+          requires: *req_req
+
 
 
 
