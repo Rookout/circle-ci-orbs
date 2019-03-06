@@ -9,9 +9,9 @@ jobs:
       - image: circleci/node:10
     working_directory: ~/Temp
     steps:
-      - run: git log --format=oneline -n 1 $CIRCLE_SHA1
       - checkout:
           path: ~/Rookout
+      - run: git log --format=oneline -n 1 $CIRCLE_SHA1
       - rookout-node/run_script:
           users_script: "node --trace-warnings --trace-sync-io --title=xxxxxxx ~/Rookout/examples/example_app.js"
           rookout_tags: "asdf;asdf2"
