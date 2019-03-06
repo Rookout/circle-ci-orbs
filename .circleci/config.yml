@@ -9,7 +9,7 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout
-      - run: export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1) && echo $COMMIT_MSG >> $BASH_ENV
+      - run: export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1) && echo "export $COMMIT_MSG" >> $BASH_ENV
 
   commit_trigger_message:
     docker:
