@@ -4,29 +4,22 @@ orbs:
 
 
 jobs:
-  save_commit_message:
-    docker:
-      - image: circleci/node:10
-    steps:
-      - checkout
-      - run: export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1) && echo "export $COMMIT_MSG" >> $BASH_ENV
-      - run: echo $COMMIT_MSG
-
   commit_trigger_message:
     docker:
       - image: circleci/node:10
     steps:
       - checkout
       - run: git config --global user.email "sonario@rookout.com" && git config --global user.name "Sonario CircleCI"
-      - run: echo $COMMIT_MSG
-      - run: echo $BASH_ENV
+      - run: export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
       - run: export NEW_COMMIT_MSG="[prod_deploy_workflow]::$COMMIT_MSG" && git commit --allow-empty -m "$NEW_COMMIT_MSG" && git push --set-upstream origin $CIRCLE_BRANCH -f
 
   should_run_prod_deploy_workflow:
     docker:
       - image: circleci/node:10
     steps:
+      - checkout
       - run: |
+          export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
           if [ "$COMMIT_MSG" != "[prod_deploy_workflow]" ]; then
             exit 1
           fi
@@ -35,7 +28,9 @@ jobs:
     docker:
       - image: circleci/node:10
     steps:
+      - checkout
       - run: |
+          export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
           if [ "$COMMIT_MSG" = "[prod_deploy_workflow]" ]; then
             exit 1
           fi
@@ -84,10 +79,7 @@ version: 2.1
 workflows:
   pack-validate_publish-dev:
     jobs:
-      - save_commit_message
-      - should_run_publish_dev_workflow:
-          requires:
-            - save_commit_message
+      - should_run_publish_dev_workflow
       - orb-tools/pack:
           requires:
             - should_run_publish_dev_workflow
@@ -120,10 +112,7 @@ workflows:
 
   integration_tests-prod_deploy:
     jobs:
-      - save_commit_message
-      - should_run_prod_deploy_workflow:
-          requires:
-            - save_commit_message
+      - should_run_prod_deploy_workflow
       - my_job:
           requires:
             - should_run_prod_deploy_workflow
