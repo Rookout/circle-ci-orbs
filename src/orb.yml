@@ -1,6 +1,6 @@
 version: 2.1
 description: |
-  A circle-ci orb that installs rookout-node to your job and runs your node program with rookout. 
+  A circle-ci orb that installs rookout-node to your job and runs your node program with rookout.
   Explore our github repository for further information: https://github.com/Rookout/circle-ci-orbs.
   Orb dependencies: bash, nodejs, npm, sudo\root access.
 
@@ -19,6 +19,7 @@ commands:
       - run:
           description: "Install rook if needed"
           command: |
+            echo hhhhhhhhhhhhhhhhhhhhhhhhhhhh
             if ! which npm > /dev/null; then
               echo "[Rookout] npm is not install in this image - please install npm."
               exit 1
