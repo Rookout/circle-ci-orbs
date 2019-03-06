@@ -8,8 +8,10 @@ jobs:
     docker:
       - image: circleci/node:10
     steps:
-      - checkout
-      - run: pwd
+      - checkout:
+          -path:
+            ~/project
+      - run: cd ~/project
       - run: git config --global user.email "sonario@rookout.com" && git config --global user.name "Sonario CircleCI"
       - run: export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
       - run: echo $COMMIT_MSG
