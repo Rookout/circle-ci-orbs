@@ -36,7 +36,6 @@ jobs:
       - checkout
       - run: |
           export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
-          echo $COMMIT_MSG
           if [[ $COMMIT_MSG == *"[auto_"* ]]; then
             exit 1
           fi
@@ -59,13 +58,12 @@ jobs:
           users_script: "~/Rookout/examples/example_app.js"
       - rookout-node/run_script:
           users_script: "~/Rookout/examples/example_app.js p1 p2 p3"
-
-
-prod-deploy_requires: &prod-deploy_requires
-  [notifytest-master, statustestpass-master, approvaltest-master, approval-notification-job-master]
-
-req_req: &req_req
-  [trigger-integration-master]
+        # checking that the bp was executed 20 times (4 apps with 5 times each)
+      - run: |
+          export ROOKOUT_HITS=$(grep -c "Executing" /tmp/rookout/rook.log)
+          if [[ $ROOKOUT_HITS != 20 ]]; then
+            exit 1
+          fi
 
 version: 2.1
 workflows:
