@@ -1,6 +1,7 @@
 orbs:
   orb-tools: circleci/orb-tools@8.3.0
   rookout-node: rookout/rookout-node@dev:alpha
+  cli: circleci/circleci-cli@1.0.0
 
 jobs:
   trigger_commit:
@@ -64,9 +65,10 @@ jobs:
 
   promote_prod_version:
     docker:
-      - image: cibuilds/base
+      - image: circleci/circleci-cli:latest
     working_directory: ~/Temp
     steps:
+      - cli/install
       - checkout:
           path: ~/Rookout
       - run: |
