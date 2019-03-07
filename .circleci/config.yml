@@ -95,5 +95,6 @@ workflows:
       - orb-tools/dev-promote-prod:
           name: dev-promote-patch
           orb-name: rookout/rookout-node
+          orb-ref: rookout/rookout-node@dev:alpha
           requires:
             - orb-tools/publish
