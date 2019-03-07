@@ -64,7 +64,7 @@ jobs:
 
   promote_prod_version:
     docker:
-      - image: circleci/node:10
+      - image: cibuilds/base
     working_directory: ~/Temp
     steps:
       - checkout:
