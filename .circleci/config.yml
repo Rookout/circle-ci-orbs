@@ -92,3 +92,8 @@ workflows:
           filters:
             branches:
               only: master
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-patch
+          orb-name: rookout/rookout-node
+          requires:
+            - orb-tools/publish
