@@ -84,9 +84,9 @@ workflows:
       - check_rookout:
           requires:
             - should_run_prod_deploy_workflow
-      - orb-tools/dev-promote-prod:
-          name: dev-promote-patch
-          orb-name: rookout/rookout-node
+      - orb-tools/publish:
+          orb-path: src/orb.yml
+          orb-ref: rookout/rookout-node@dev:alpha
           requires:
             - check_rookout
           filters:
