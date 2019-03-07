@@ -86,7 +86,6 @@ workflows:
             - should_run_prod_deploy_workflow
       - orb-tools/dev-promote-prod:
           name: dev-promote-patch
-          context: orb-publishing
           orb-name: rookout/rookout-node
           requires:
             - check_rookout
