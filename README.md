@@ -9,7 +9,7 @@ The rookout circle-ci orb allows you debug your nodeJS scripts running in your c
 2. Import rookout-node orb:
     ```
     orbs:
-      rookout-node: circleci/rookout-node@0.0.2
+      rookout-node: circleci/rookout-node@0.0.8
     ```
 
 3. Call the run_script command:

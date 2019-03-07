@@ -45,7 +45,7 @@ examples:
     description: Simple circle-ci file that imports and uses the orb
     usage:
       orbs:
-        rookout-node: rookout/rookout-node@0.0.4
+        rookout-node: rookout/rookout-node@0.0.8
 
       description: "A circle-ci job that uses rookout-node to debug a node command"
 

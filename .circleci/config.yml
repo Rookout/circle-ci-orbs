@@ -62,6 +62,17 @@ jobs:
             exit 1
           fi
 
+  promote_prod_version:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/Temp
+      steps:
+        - checkout:
+            path: ~/Rookout
+        - run: |
+            cd ~/Rookout
+            circleci orb publish increment src/orb.yml rookout/rookout-node patch
+
 version: 2.1
 workflows:
   pack-publish-dev-version:
@@ -92,9 +103,6 @@ workflows:
           filters:
             branches:
               only: master
-      - orb-tools/dev-promote-prod:
-          name: dev-promote-patch
-          orb-name: rookout/rookout-node
-          orb-ref: dev:alpha
+      - promote_prod_version:
           requires:
             - orb-tools/publish
