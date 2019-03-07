@@ -73,6 +73,7 @@ jobs:
           path: ~/Rookout
       - run: |
           cd ~/Rookout
+          export CIRCLECI_CLI_TOKEN=$CIRCLE_TOKEN
           circleci orb publish increment src/orb.yml rookout/rookout-node patch
 
 version: 2.1
