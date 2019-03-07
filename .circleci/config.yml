@@ -1,15 +1,51 @@
 orbs:
-  orb-tools: circleci/orb-tools@2.0.0
-  rookout-node: rookout/rookout-node@0.0.7
+  orb-tools: circleci/orb-tools@8.3.0
+  rookout-node: rookout/rookout-node@dev:alpha
 
 jobs:
-  my_job:
+  trigger_commit:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - run: |
+          git config --global user.email "sonario@rookout.com" && git config --global user.name "Sonario CircleCI"
+          export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
+          export NEW_COMMIT_MSG="[auto_prod_deploy_workflow]::$COMMIT_MSG" && git commit --allow-empty -m "$NEW_COMMIT_MSG" && git push --set-upstream origin $CIRCLE_BRANCH -f
+
+  # this is the first step
+  should_run_publish_dev_workflow:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - run: |
+          export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
+          if [[ $COMMIT_MSG == *"[auto_"* ]]; then
+            exit 1
+          fi
+
+  # this is the second step
+  should_run_prod_deploy_workflow:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - run: |
+          export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
+          if [[ $COMMIT_MSG != *"[auto_prod_deploy_workflow]"* ]]; then
+            exit 1
+          fi
+
+  check_rookout:
     docker:
       - image: circleci/node:10
     working_directory: ~/Temp
     steps:
       - checkout:
           path: ~/Rookout
+      - run: cd ~/Rookout
+      - run: cd ~/Rookout && pwd && git log --format=oneline -n 1 $CIRCLE_SHA1
       - rookout-node/run_script:
           users_script: "node --trace-warnings --trace-sync-io --title=xxxxxxx ~/Rookout/examples/example_app.js"
           rookout_tags: "asdf;asdf2"
@@ -19,18 +55,41 @@ jobs:
           users_script: "~/Rookout/examples/example_app.js"
       - rookout-node/run_script:
           users_script: "~/Rookout/examples/example_app.js p1 p2 p3"
+        # checking that the bp was executed 20 times (4 apps with 5 times each)
+      - run: |
+          export ROOKOUT_HITS=$(grep -c "Executing" /tmp/rookout/rook.log)
+          if [[ $ROOKOUT_HITS != 20 ]]; then
+            exit 1
+          fi
 
 version: 2.1
 workflows:
-  main:
+  pack-publish-dev-version:
     jobs:
-      - orb-tools/publish:
-          orb-path: src/orb.yml
-          orb-ref: rookout/rookout-node@dev:${CIRCLE_BRANCH}
-          publish-token-variable: "$CIRCLECI_DEV_API_TOKEN"
-          validate: true
-      - my_job:
+      - should_run_publish_dev_workflow
+      - orb-tools/pack:
           requires:
-            - "orb-tools/publish"
-      # increase version: (needs admin token)
-      # circleci orb publish increment src/orb.yml rookout/rookout-node patch
+            - should_run_publish_dev_workflow
+      - orb-tools/publish-dev:
+          orb-name: rookout/rookout-node
+          requires:
+            - orb-tools/pack
+      - trigger_commit:
+          requires:
+            - orb-tools/publish-dev
+
+  test-alpha-promote-deploy:
+    jobs:
+      - should_run_prod_deploy_workflow
+      - check_rookout:
+          requires:
+            - should_run_prod_deploy_workflow
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-patch
+          context: orb-publishing
+          orb-name: rookout/rookout-node
+          requires:
+            - check_rookout
+          filters:
+            branches:
+              only: master

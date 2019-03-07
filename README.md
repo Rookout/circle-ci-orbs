@@ -1,6 +1,6 @@
 # Rookout Orb
 
-The rookout circle-ci orb allows you debug your own nodeJS scripts running in your circle-ci jobs.
+The rookout circle-ci orb allows you debug your nodeJS scripts running in your circle-ci jobs.
 
 ## How to use rookout-node circle-ci orb:
 
@@ -31,8 +31,8 @@ The rookout circle-ci orb allows you debug your own nodeJS scripts running in yo
 
     ```
     - rookout-node/run_script:
-              users_script: %YOUR_NODE_COMMAND%
-              rookout_tags: "yourTag1;YourTag2"
+          users_script: %YOUR_NODE_COMMAND%
+          rookout_tags: "yourTag1;YourTag2"
     ```
     
     The default tags value is: '$CIRCLE_PROJECT_REPONAME;$CIRCLE_JOB;circle-ci'
@@ -40,3 +40,6 @@ The rookout circle-ci orb allows you debug your own nodeJS scripts running in yo
 
 ### Circleci-orb
 https://circleci.com/orbs/registry/orb/rookout/rookout-node
+
+### Circleci-orbs-topic
+https://github.com/topics/circleci-orbs
