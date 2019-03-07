@@ -2,9 +2,8 @@ orbs:
   orb-tools: circleci/orb-tools@8.3.0
   rookout-node: rookout/rookout-node@dev:alpha
 
-
 jobs:
-  commit_trigger_message:
+  trigger_commit:
     docker:
       - image: circleci/node:10
     steps:
@@ -12,21 +11,7 @@ jobs:
       - run: |
           git config --global user.email "sonario@rookout.com" && git config --global user.name "Sonario CircleCI"
           export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
-          echo $COMMIT_MSG
           export NEW_COMMIT_MSG="[auto_prod_deploy_workflow]::$COMMIT_MSG" && git commit --allow-empty -m "$NEW_COMMIT_MSG" && git push --set-upstream origin $CIRCLE_BRANCH -f
-
-  # this is the second step
-  should_run_prod_deploy_workflow:
-    docker:
-      - image: circleci/node:10
-    steps:
-      - checkout
-      - run: |
-          export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
-          echo $COMMIT_MSG
-          if [[ $COMMIT_MSG != *"[auto_prod_deploy_workflow]"* ]]; then
-            exit 1
-          fi
 
   # this is the first step
   should_run_publish_dev_workflow:
@@ -40,7 +25,19 @@ jobs:
             exit 1
           fi
 
-  my_job:
+  # this is the second step
+  should_run_prod_deploy_workflow:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - run: |
+          export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
+          if [[ $COMMIT_MSG != *"[auto_prod_deploy_workflow]"* ]]; then
+            exit 1
+          fi
+
+  check_rookout:
     docker:
       - image: circleci/node:10
     working_directory: ~/Temp
@@ -67,7 +64,7 @@ jobs:
 
 version: 2.1
 workflows:
-  pack-validate_publish-dev:
+  pack-publish-dev-version:
     jobs:
       - should_run_publish_dev_workflow
       - orb-tools/pack:
@@ -77,48 +74,22 @@ workflows:
           orb-name: rookout/rookout-node
           requires:
             - orb-tools/pack
-      - commit_trigger_message:
+      - trigger_commit:
           requires:
             - orb-tools/publish-dev
-      - orb-tools/trigger-integration-workflow:
-          name: trigger-integration-dev
-          ssh-fingerprints: 26:d8:fe:04:01:0f:a1:51:34:87:46:67:ed:70:36:79
-          cleanup-tags: true
+
+  test-alpha-promote-deploy:
+    jobs:
+      - should_run_prod_deploy_workflow
+      - check_rookout:
           requires:
-            - orb-tools/publish-dev
-          filters:
-            branches:
-              ignore: master
-      - orb-tools/trigger-integration-workflow:
-          name: trigger-integration-master
-          ssh-fingerprints: 26:d8:fe:04:01:0f:a1:51:34:87:46:67:ed:70:36:79
-          cleanup-tags: true
-          tag: master
+            - should_run_prod_deploy_workflow
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-patch
+          context: orb-publishing
+          orb-name: rookout/rookout-node
           requires:
-            - orb-tools/publish-dev
+            - check_rookout
           filters:
             branches:
               only: master
-
-  integration_tests-prod_deploy:
-    jobs:
-      - should_run_prod_deploy_workflow
-      - my_job:
-          requires:
-            - should_run_prod_deploy_workflow
-
-
-
-
-
-
-      #- orb-tools/publish:
-      #    orb-path: src/orb.yml
-      #    orb-ref: rookout/rookout-node@dev:${CIRCLE_BRANCH}
-      #    publish-token-variable: "$CIRCLECI_DEV_API_TOKEN"
-      #    validate: true
-      #- my_job:
-      #    requires:
-      #      - "orb-tools/publish"
-      # increase version: (needs admin token)
-      # circleci orb publish increment src/orb.yml rookout/rookout-node patch
