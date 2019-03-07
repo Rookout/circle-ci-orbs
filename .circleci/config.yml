@@ -37,7 +37,7 @@ jobs:
       - run: |
           export COMMIT_MSG=$(git show -s --format=%B -n 1 $CIRCLE_SHA1)
           echo $COMMIT_MSG
-          if [[ $COMMIT_MSG != *"[auto_"* ]]; then
+          if [[ $COMMIT_MSG == *"[auto_"* ]]; then
             exit 1
           fi
 
