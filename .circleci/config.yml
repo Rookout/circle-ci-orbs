@@ -61,7 +61,7 @@ jobs:
         # checking that the bp was executed 20 times (4 apps with 5 times each)
       - run: |
           export ROOKOUT_HITS=$(grep -c "Executing" /tmp/rookout/rook.log)
-          if [[ $ROOKOUT_HITS != 28 ]]; then
+          if [[ $ROOKOUT_HITS != 60 ]]; then
             exit 1
           fi
 
