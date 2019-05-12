@@ -15,7 +15,7 @@ id = setInterval(() => {
         func();
 
 		index = index + 1;
-		if (index === 5) {
+		if (index === 7) {
             clearInterval(id);
         }
     }, 1500);
