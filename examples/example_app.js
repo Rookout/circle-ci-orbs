@@ -18,4 +18,4 @@ id = setInterval(() => {
 		if (index === 7) {
             clearInterval(id);
         }
-    }, 1500);
+    }, 1000);
