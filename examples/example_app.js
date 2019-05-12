@@ -10,9 +10,12 @@ function func() {
 }
 
 var index = 0;
-
-setInterval(() => {
+var id = 0;
+id = setInterval(() => {
         func();
 
 		index = index + 1;
+		if (index === 5) {
+            clearInterval(id);
+        }
     }, 1500);
