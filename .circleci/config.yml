@@ -48,20 +48,13 @@ jobs:
       - run: cd ~/Rookout
       - run: cd ~/Rookout && pwd && git log --format=oneline -n 1 $CIRCLE_SHA1
       - run: export ROOKOUT_AGENT_HOST=wss://staging.control.rookout.com
-      - run: export ROOKOUT_TIMEOUT=10000
-      - rookout-node/run_script:
-          users_script: "node --trace-warnings --trace-sync-io --title=xxxxxxx ~/Rookout/examples/example_app.js"
-          rookout_tags: "asdf;asdf2"
-      - rookout-node/run_script:
-          users_script: "node ~/Rookout/examples/example_app.js"
+      - run: export ROOKOUT_TIMEOUT=1000000
       - rookout-node/run_script:
           users_script: "~/Rookout/examples/example_app.js"
-      - rookout-node/run_script:
-          users_script: "~/Rookout/examples/example_app.js p1 p2 p3"
         # checking that the bp was executed 20 times (4 apps with 5 times each)
       - run: |
           export ROOKOUT_HITS=$(grep -c "Executing" /tmp/rookout/rook.log)
-          if [[ $ROOKOUT_HITS != 60 ]]; then
+          if [[ $ROOKOUT_HITS != 15 ]]; then
             exit 1
           fi
 
