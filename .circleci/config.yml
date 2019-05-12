@@ -47,7 +47,7 @@ jobs:
           path: ~/Rookout
       - run: cd ~/Rookout
       - run: cd ~/Rookout && pwd && git log --format=oneline -n 1 $CIRCLE_SHA1
-      - run: export ROOKOUT_AGENT_HOST=wss://control.rookout.com
+      - run: export ROOKOUT_AGENT_HOST=wss://staging.control.rookout.com
       - rookout-node/run_script:
           users_script: "node --trace-warnings --trace-sync-io --title=xxxxxxx ~/Rookout/examples/example_app.js"
           rookout_tags: "asdf;asdf2"
