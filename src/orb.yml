@@ -1,8 +1,11 @@
 version: 2.1
 description: |
   A circle-ci orb that installs rookout-node to your job and runs your node program with rookout.
-  Explore our github repository for further information: https://github.com/Rookout/circle-ci-orbs.
   Orb dependencies: bash, nodejs, npm, sudo\root access.
+
+display:
+  source_url: https://github.com/Rookout/circle-ci-orbs
+  home_url: https://www.rookout.com/
 
 commands:
   run_script:
